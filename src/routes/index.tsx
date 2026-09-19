@@ -1,24 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { HomePreloader } from "@/components/home-preloader";
+import { BookingCta, Eyebrow, Reveal, SectionHeading } from "@/components/site-elements";
+import { images, services } from "@/lib/site-content";
+export const Route=createFileRoute("/")({head:()=>({meta:[{title:"Bespoke Tailor Birmingham | The Tailor Lady"},{name:"description",content:"Bespoke tailoring and made to measure suits in Birmingham city centre, created with a precise fit and a distinctly personal point of view."},{property:"og:title",content:"Bespoke Tailor Birmingham | The Tailor Lady"},{property:"og:description",content:"Modern bespoke tailoring, made to measure suits and expert alterations in Birmingham city centre."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}],links:[{rel:"canonical",href:"/"},{rel:"preload",as:"image",href:images.hero,fetchPriority:"high"}],scripts:[{type:"application/ld+json",children:JSON.stringify({"@context":"https://schema.org","@type":["LocalBusiness","ProfessionalService","ClothingStore"],name:"The Tailor Lady",description:"Bespoke tailoring and alterations in Birmingham city centre.",address:{"@type":"PostalAddress",addressLocality:"Birmingham",addressCountry:"GB"},areaServed:"Birmingham",priceRange:"£££",telephone:"Template — update before launch",openingHours:"Template — by appointment",hasOfferCatalog:{"@type":"OfferCatalog",name:"Tailoring services",itemListElement:["Bespoke suits","Made to measure suits","Wedding suits","Suit alterations","Wedding dress alterations"]}})}]}),component:Home});
+function Home(){return <><HomePreloader/><section className="relative min-h-dvh overflow-hidden bg-ink text-primary-foreground"><motion.img src={images.hero} alt="Female bespoke tailor fitting a charcoal suit in a Birmingham atelier" className="absolute inset-0 size-full object-cover" width={1600} height={1104} initial={{scale:1.06}} animate={{scale:1}} transition={{duration:1.8}}/><div className="absolute inset-0 bg-hero-overlay"/><div className="relative mx-auto flex min-h-dvh max-w-7xl flex-col justify-end px-5 pb-20 pt-32 md:px-10 md:pb-24"><Eyebrow light>Bespoke tailor · Birmingham</Eyebrow><h1 className="mt-5 max-w-5xl font-display text-6xl leading-[.88] md:text-8xl lg:text-[7.6rem]">Cut for your life.<br/><em className="text-accent">Not the rail.</em></h1><div className="mt-7 flex max-w-2xl flex-col items-start justify-between gap-7 md:flex-row md:items-end"><p className="max-w-md text-base leading-7 text-primary-foreground/80">Bespoke and made to measure tailoring in Birmingham city centre, shaped around your proportions, purpose and point of view.</p><BookingCta dark/></div><ArrowDown className="absolute bottom-7 right-8 animate-bounce" aria-hidden="true"/></div></section>
+<section className="stack-section z-10 bg-blush px-5 py-12 md:px-10"><div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 md:grid-cols-4">{[["500+","Garments tailored"],["15","Years of craft"],["100%","Made to measure"],["98%","Client return rate"]].map(([n,l])=><div key={l}><p className="font-display text-4xl md:text-5xl">{n}</p><p className="mt-1 text-xs uppercase tracking-[.14em]">{l}</p></div>)}</div></section>
+<section className="relative z-20 bg-background px-5 py-24 md:px-10 md:py-32"><div className="mx-auto max-w-7xl"><SectionHeading eyebrow="Popular designs" title="The pieces people return for." body="Each commission starts with your life, not a house style. These signatures simply offer a place to begin."/><div className="mt-14 grid gap-4 md:grid-cols-12">{services.map((s,i)=><Reveal key={s.id} className={i===0||i===3?"md:col-span-7":"md:col-span-5"}><Link to="/services" hash={s.id} className="group block overflow-hidden bg-card"><div className={i===0||i===3?"aspect-[16/11] overflow-hidden":"aspect-[4/5] overflow-hidden"}><img src={s.image} alt={s.alt} width={1200} height={1504} loading="lazy" className="image-hover size-full object-cover"/></div><div className="flex items-end justify-between p-5"><div><h3 className="font-display text-3xl">{s.title}</h3><p className="mt-1 text-sm text-muted-foreground">{s.note}</p></div><ArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"/></div></Link></Reveal>)}</div><div className="mt-12"><BookingCta/></div></div></section>
+<section className="bg-ink px-5 py-24 text-primary-foreground md:px-10 md:py-32"><div className="mx-auto max-w-7xl"><SectionHeading eyebrow="In their words" title="Made to be lived in."/><div className="mt-14 grid gap-px bg-primary-foreground/15 md:grid-cols-3">{[["The first jacket I have owned that feels completely natural.","Amelia · Edgbaston"],["Every detail was considered, without ever feeling overdone.","Priya · Jewellery Quarter"],["Calm advice, exact fit, and a suit I will wear for years.","Rachel · Solihull"]].map(([q,n])=><blockquote key={n} className="bg-ink p-8 md:p-10"><p className="font-display text-3xl leading-snug">“{q}”</p><footer className="mt-8 text-xs uppercase tracking-[.16em] text-primary-foreground/55">{n}</footer></blockquote>)}</div></div></section>
+<section className="bg-camel px-5 py-24 md:px-10 md:py-32"><div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2 md:items-end"><h2 className="font-display text-5xl leading-none md:text-7xl">Begin with a conversation.</h2><div><p className="mb-7 max-w-lg leading-7">Tell us what you are dressing for. We will respond with thoughtful next steps, without pressure.</p><BookingCta/></div></div></section></>}
