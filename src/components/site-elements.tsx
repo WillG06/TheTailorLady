@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
@@ -10,17 +10,16 @@ export function Eyebrow({ children, light = false }: { children: ReactNode; ligh
 }
 
 export function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
-  const reduce = useReducedMotion();
-  return <motion.div className={className} initial={reduce ? false : { opacity: 0, y: 38 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: .75, ease: [.22, 1, .36, 1] }}>{children}</motion.div>;
+  return <motion.div className={className} initial={{ opacity: 0, y: 38 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: .75, ease: [.22, 1, .36, 1] }}>{children}</motion.div>;
 }
 
 export function PageHero({ eyebrow, title, intro, image, alt, align = "left" }: { eyebrow: string; title: string; intro: string; image: string; alt: string; align?: "left" | "center" }) {
-  return <section className="relative min-h-[78dvh] overflow-hidden bg-ink text-primary-foreground">
-    <motion.img src={image} alt={alt} className="absolute inset-0 size-full object-cover opacity-70" initial={{ scale: 1.05 }} animate={{ scale: 1 }} transition={{ duration: 1.5 }} width={1600} height={1104} />
+  return <section className="relative min-h-[88dvh] overflow-hidden bg-ink text-primary-foreground">
+    <motion.img src={image} alt={alt} className="absolute inset-0 size-full object-cover opacity-75" initial={{ scale: 1.04 }} animate={{ scale: 1 }} transition={{ duration: 1.5, ease: [.22,1,.36,1] }} width={1600} height={1104} />
     <div className="absolute inset-0 bg-hero-overlay" />
-    <div className={cn("relative mx-auto flex min-h-[78dvh] max-w-7xl flex-col justify-end px-5 pb-16 pt-32 md:px-10 md:pb-24", align === "center" && "items-center text-center")}>
-      <Eyebrow light>{eyebrow}</Eyebrow><h1 className="mt-5 max-w-4xl font-display text-5xl leading-[.94] md:text-7xl lg:text-8xl">{title}</h1>
-      <p className="mt-6 max-w-xl text-base leading-7 text-primary-foreground/80 md:text-lg">{intro}</p>
+    <div className={cn("relative mx-auto flex min-h-[88dvh] max-w-7xl flex-col justify-end px-5 pb-20 pt-40 md:px-10 md:pb-24", align === "center" && "items-center text-center")}>
+      <Eyebrow light>{eyebrow}</Eyebrow><h1 className="mt-5 max-w-5xl font-display text-5xl leading-[.92] md:text-7xl lg:text-[6.5rem]">{title}</h1>
+      <p className="mt-6 max-w-2xl border-l border-accent pl-5 text-base leading-7 text-primary-foreground/80 md:text-lg">{intro}</p>
     </div>
   </section>;
 }

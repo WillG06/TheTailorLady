@@ -47,8 +47,19 @@
 
 @utility page-wrap { margin-inline: auto; width: min(100% - 2.5rem, 80rem); }
 @utility bg-hero-overlay { background: linear-gradient(180deg, transparent 20%, color-mix(in oklab, var(--ink) 82%, transparent) 100%); }
+@utility bg-process-image { background: linear-gradient(180deg, transparent 55%, color-mix(in oklab, var(--ink) 24%, transparent) 100%); }
 @utility stack-section { position: relative; margin-top: -10vh; border-radius: 0; }
 @utility image-hover { transition: transform .8s cubic-bezier(.22,1,.36,1); &:hover { transform: scale(1.025); } }
+
+.process-panel + .process-panel { margin-top: -10vh; }
+.process-panel:nth-child(2) { margin-inline: clamp(0rem, 3vw, 3rem) 0; }
+.process-panel:nth-child(3) { margin-inline: 0 clamp(0rem, 3vw, 3rem); }
+.process-panel:nth-child(4) { margin-inline: clamp(0rem, 5vw, 5rem) 0; }
+
+@media (max-width: 767px) {
+  .process-panel + .process-panel { margin-top: -2rem; }
+  .process-panel:nth-child(n) { margin-inline: 0; }
+}
 
 ::selection { background: var(--blush); color: var(--foreground); }
 

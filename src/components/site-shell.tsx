@@ -1,9 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { Instagram, Menu, X } from "lucide-react";
+import { ArrowUpRight, Instagram, MapPin, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { legalLinks, navItems } from "@/lib/site-content";
+import { images, legalLinks, navItems } from "@/lib/site-content";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -11,10 +11,10 @@ export function SiteHeader() {
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => { document.body.style.overflow = open ? "hidden" : ""; return () => { document.body.style.overflow = ""; }; }, [open]);
   return <>
-    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-8 md:pt-6">
-      <div className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-border/60 bg-background/90 px-5 py-2.5 shadow-sm backdrop-blur-xl">
-        <Link to="/" aria-label="The Tailor Lady home" className="font-display text-xl font-semibold md:text-2xl">The Tailor <em className="font-normal text-accent">Lady</em></Link>
-        <Button variant="pill" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="site-menu"><Menu aria-hidden="true" /> Menu</Button>
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-8 md:pt-6">
+      <div className="mx-auto flex max-w-7xl items-start justify-between">
+        <Link to="/" aria-label="The Tailor Lady home" className="pointer-events-auto flex min-h-14 items-center border border-border/60 bg-background/92 px-5 shadow-lg backdrop-blur-xl md:min-h-16 md:px-7"><span className="font-display text-xl font-semibold md:text-2xl">The Tailor <em className="font-normal text-accent">Lady</em></span><span className="ml-5 hidden border-l border-border pl-5 text-[.62rem] font-semibold uppercase tracking-[.18em] text-muted-foreground sm:block">Birmingham<br/>Atelier</span></Link>
+        <Button variant="pill" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="site-menu" className="pointer-events-auto min-h-14 border-foreground/10 bg-ink px-5 text-primary-foreground shadow-lg hover:bg-accent md:min-h-16 md:px-7"><span className="text-[.62rem] uppercase tracking-[.18em]">Explore</span><Menu aria-hidden="true" /></Button>
       </div>
     </header>
     <AnimatePresence>
@@ -30,14 +30,18 @@ export function SiteHeader() {
 }
 
 export function SiteFooter() {
-  return <footer className="bg-ink px-5 pb-8 pt-20 text-primary-foreground md:px-10 md:pt-28">
-    <div className="mx-auto max-w-7xl"><p className="font-display text-5xl leading-none md:text-8xl">Clothes that feel<br/><em className="text-accent">entirely yours.</em></p>
-      <div className="mt-16 grid gap-10 border-t border-primary-foreground/20 pt-10 md:grid-cols-[1.5fr_1fr_1fr]">
-        <div><p className="font-display text-2xl">The Tailor Lady</p><p className="mt-3 max-w-xs text-sm leading-6 text-primary-foreground/60">Bespoke tailoring, made to measure and considered alterations in Birmingham city centre.</p></div>
-        <nav aria-label="Footer navigation"><p className="mb-3 text-xs uppercase tracking-[.18em] text-primary-foreground/50">Explore</p><ul className="space-y-2">{navItems.map(([l,t])=><li key={t}><Link to={t} className="text-sm hover:text-accent">{l}</Link></li>)}</ul></nav>
-        <div><p className="mb-3 text-xs uppercase tracking-[.18em] text-primary-foreground/50">Legal & social</p><ul className="space-y-2">{legalLinks.map(([l,t])=><li key={t}><Link to={t} className="text-sm hover:text-accent">{l}</Link></li>)}</ul><a href="#" aria-label="Instagram profile placeholder" className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm"><Instagram/> Instagram</a></div>
-      </div><p className="mt-14 border-t border-primary-foreground/10 pt-6 text-xs text-primary-foreground/45">© 2026 The Tailor Lady. Template business details — replace before launch.</p>
+  return <footer className="bg-ink text-primary-foreground">
+    <div className="grid min-h-[68dvh] lg:grid-cols-2">
+      <div className="relative min-h-[26rem] overflow-hidden"><img src={images.fabric} alt="Tailoring cloth and hand tools in The Tailor Lady atelier" width={1408} height={1008} loading="lazy" className="absolute inset-0 size-full object-cover opacity-75"/><div className="absolute inset-0 bg-process-image"/><p className="absolute bottom-6 left-6 text-[.65rem] uppercase tracking-[.2em] text-primary-foreground/70 md:bottom-10 md:left-10">A private atelier · Birmingham city centre</p></div>
+      <div className="flex flex-col justify-between px-6 py-14 md:px-12 md:py-20 lg:px-16"><div><p className="text-[.68rem] font-semibold uppercase tracking-[.22em] text-accent">Your first fitting</p><h2 className="mt-6 max-w-xl font-display text-5xl leading-[.92] md:text-7xl">Begin with a conversation, <em className="text-accent">not a commitment.</em></h2><p className="mt-7 max-w-lg text-base leading-8 text-primary-foreground/65">Tell us about the garment, the occasion and how you want to feel. We will explain the most suitable route and arrange an unhurried appointment.</p><Button asChild variant="ivory" size="lg" className="mt-9"><Link to="/contact">Book a fitting <ArrowUpRight/></Link></Button></div><div className="mt-16 flex items-start gap-3 border-t border-primary-foreground/15 pt-6 text-sm text-primary-foreground/55"><MapPin className="mt-0.5 size-4 text-accent"/><p>Birmingham city centre<br/><span className="text-xs">Full atelier address to be confirmed</span></p></div></div>
     </div>
+    <div className="px-5 pb-8 pt-16 md:px-10 md:pt-24"><div className="mx-auto max-w-7xl">
+      <div className="grid gap-14 md:grid-cols-12"><div className="md:col-span-5"><p className="font-display text-4xl">The Tailor <em className="text-accent">Lady</em></p><p className="mt-5 max-w-sm text-sm leading-7 text-primary-foreground/55">Bespoke tailoring, made to measure and considered alterations, shaped around the person who will wear them.</p><a href="#" aria-label="Instagram profile placeholder" className="mt-7 inline-flex min-h-11 items-center gap-3 text-sm hover:text-accent"><Instagram/> Instagram</a></div>
+        <nav aria-label="Footer navigation" className="md:col-span-3"><p className="mb-5 text-xs uppercase tracking-[.18em] text-primary-foreground/40">Explore</p><ul className="grid grid-cols-2 gap-x-5 gap-y-3 md:grid-cols-1">{navItems.map(([l,t])=><li key={t}><Link to={t} className="text-sm text-primary-foreground/70 hover:text-accent">{l}</Link></li>)}</ul></nav>
+        <div className="md:col-span-4"><p className="mb-5 text-xs uppercase tracking-[.18em] text-primary-foreground/40">Atelier details</p><div className="space-y-3 text-sm leading-6 text-primary-foreground/70"><p>By appointment<br/>Tuesday–Saturday · hours to confirm</p><a href="mailto:hello@example.com" className="block hover:text-accent">hello@example.com</a><p className="text-xs text-primary-foreground/40">Contact details are placeholders until confirmed.</p></div></div>
+      </div>
+      <div className="mt-16 flex flex-col gap-5 border-t border-primary-foreground/10 pt-6 text-xs text-primary-foreground/40 md:flex-row md:items-center md:justify-between"><p>© 2026 The Tailor Lady. Template business details — replace before launch.</p><ul className="flex flex-wrap gap-5">{legalLinks.map(([l,t])=><li key={t}><Link to={t} className="hover:text-accent">{l}</Link></li>)}</ul></div>
+    </div></div>
   </footer>;
 }
 
