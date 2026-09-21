@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
@@ -10,8 +10,7 @@ export function Eyebrow({ children, light = false }: { children: ReactNode; ligh
 }
 
 export function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
-  const reduce = useReducedMotion();
-  return <motion.div className={className} initial={reduce ? false : { opacity: 0, y: 38 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: .75, ease: [.22, 1, .36, 1] }}>{children}</motion.div>;
+  return <motion.div className={className} initial={{ opacity: 0, y: 38 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.18 }} transition={{ duration: .75, ease: [.22, 1, .36, 1] }}>{children}</motion.div>;
 }
 
 export function PageHero({ eyebrow, title, intro, image, alt, align = "left" }: { eyebrow: string; title: string; intro: string; image: string; alt: string; align?: "left" | "center" }) {

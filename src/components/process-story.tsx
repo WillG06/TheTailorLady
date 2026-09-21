@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { BookingCta, Eyebrow } from "@/components/site-elements";
 import { images } from "@/lib/site-content";
 
@@ -30,7 +30,6 @@ const content = {
 } as const;
 
 export function ProcessStory({ kind }: { kind: ProcessKind }) {
-  const reduce = useReducedMotion();
   const section = content[kind];
   return <section className="bg-secondary px-5 pb-24 pt-28 md:px-10 md:pb-36 md:pt-36">
     <div className="mx-auto max-w-7xl">
@@ -39,9 +38,9 @@ export function ProcessStory({ kind }: { kind: ProcessKind }) {
         {section.steps.map((step, index) => {
           const dark = index % 2 === 1;
           const reversed = index % 2 === 1;
-          return <motion.article key={step.number} className={`process-panel relative overflow-hidden border border-border ${dark ? "bg-ink text-primary-foreground" : "bg-background text-foreground"}`} initial={reduce ? false : { opacity: 0, y: 80 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .12 }} transition={{ duration: .9, ease: [.22,1,.36,1] }}>
+          return <motion.article key={step.number} className={`process-panel relative overflow-hidden border border-border ${dark ? "bg-ink text-primary-foreground" : "bg-background text-foreground"}`} initial={{ opacity: 0, y: 80 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .12 }} transition={{ duration: .9, ease: [.22,1,.36,1] }}>
             <div className="grid min-h-[72dvh] lg:grid-cols-12">
-              <div className={`relative min-h-[22rem] overflow-hidden lg:col-span-7 lg:min-h-full ${reversed ? "lg:order-2" : ""}`}><motion.img src={step.image} alt={step.alt} width={1400} height={1000} loading="lazy" className="absolute inset-0 size-full object-cover" initial={reduce ? false : { scale: 1.08 }} whileInView={{ scale: 1 }} viewport={{ once: true, amount: .2 }} transition={{ duration: 1.25, ease: [.22,1,.36,1] }}/><div className="absolute inset-0 bg-process-image"/></div>
+              <div className={`relative min-h-[22rem] overflow-hidden lg:col-span-7 lg:min-h-full ${reversed ? "lg:order-2" : ""}`}><motion.img src={step.image} alt={step.alt} width={1400} height={1000} loading="lazy" className="absolute inset-0 size-full object-cover" initial={{ scale: 1.08 }} whileInView={{ scale: 1 }} viewport={{ once: true, amount: .2 }} transition={{ duration: 1.25, ease: [.22,1,.36,1] }}/><div className="absolute inset-0 bg-process-image"/></div>
               <div className={`relative flex flex-col justify-between p-7 md:p-12 lg:col-span-5 lg:p-16 ${reversed ? "lg:order-1" : ""}`}>
                 <span className={`font-display text-8xl leading-none ${dark ? "text-primary-foreground/10" : "text-foreground/10"}`}>{step.number}</span>
                 <div className="mt-16 lg:mt-auto"><p className={`text-[.68rem] font-semibold uppercase tracking-[.2em] ${dark ? "text-accent" : "text-accent"}`}>Step {step.number}</p><h3 className="mt-4 font-display text-4xl leading-none md:text-5xl">{step.title}</h3><p className={`mt-6 text-base leading-8 ${dark ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{step.text}</p><p className={`mt-8 border-t pt-5 text-xs uppercase leading-6 tracking-[.14em] ${dark ? "border-primary-foreground/20 text-primary-foreground/55" : "border-border text-muted-foreground"}`}>{step.detail}</p></div>
