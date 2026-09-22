@@ -30,3 +30,34 @@ export const faqs = [
 ] as const;
 
 export const legalLinks = [["Privacy", "/privacy"], ["Terms", "/terms"], ["Cookies", "/cookies"]] as const;
+
+export const businessDetails = {
+  location: "Birmingham city centre",
+  phoneDisplay: "07342 477032",
+  phoneHref: "tel:+447342477032",
+  whatsappHref: "https://wa.me/447342477032",
+  hours: [
+    ["Monday–Friday", "10:00am–6:30pm"],
+    ["Saturday", "10:00am–5:00pm"],
+    ["Sunday", "Closed"],
+  ],
+} as const;
+
+export const alterationPrices = [
+  {
+    id: "wedding-dress",
+    title: "Wedding dress alterations",
+    featured: true,
+    groups: [
+      { title: "Hem", items: [["Slim hem", "£84"], ["Standard hem", "£120"], ["Layered hem", "£120"], ["Ballgown style", "£140"], ["Lace hem", "£140"]] },
+      { title: "Bodice", items: [["Plain side seams", "£90"], ["Side seams with lace or beadwork", "£100"], ["Standard shoulders — taking up", "£40"], ["Shoulders with sleeve or dart adjustments", "£60"], ["String straps", "£30"], ["Change zip back to corset", "£85"], ["Make new panel", "£25"]] },
+      { title: "Skirt & finishing", items: [["Letting out — plain", "£70"], ["Letting out — laced or beaded", "£70"], ["Take in over hip or thigh — plain", "£70"], ["Take in over hip or thigh — laced or beaded", "£70"], ["Bust pads", "£20"], ["Bridal belt", "£30"], ["Larger skirt with multiple bustles", "£20"], ["Standard train bustle", "£15"], ["Change or add train ribbon", "£10"]] },
+    ],
+  },
+  { id: "bridesmaid", title: "Bridesmaid dresses", featured: true, groups: [{ title: "Alterations", items: [["Standard hem", "£35"], ["Layered hem", "£40"], ["Standard side seams — take in or let out", "£40"], ["Standard shoulders — taking up", "£30"]] }] },
+  { id: "dresses-skirts", title: "Dresses & skirts", groups: [{ title: "Alterations", items: [["Shorten hem — plain", "£14.99"], ["Shorten hem — lined", "£18.99"], ["Shorten hem — pleated", "£24.99"], ["Take in", "£35.99"], ["Shorten strap", "£22.99"]] }] },
+  { id: "trousers-jeans", title: "Trousers & jeans", groups: [{ title: "Alterations", items: [["Shorten — plain", "£14.99"], ["Shorten — vent, turn-up or lined", "£18.99"], ["Lengthen — plain", "£18.99"], ["Lengthen — false hem", "£18.99"], ["Waist take in", "£18.99"], ["Waist take out", "£18.90"], ["Full leg taper", "£22.99"], ["Shorten & taper", "£28.99"], ["New zip", "£18.99"]] }] },
+  { id: "shirts", title: "Shirts", groups: [{ title: "Alterations", items: [["Shorten — original finish", "£14.99"], ["Shorten sleeve with cuff", "£22.99"], ["Take in sides", "£18.99"], ["Repairs", "Please ask for a quote"]] }] },
+  { id: "jackets-coats", title: "Jackets & coats", groups: [{ title: "Alterations", items: [["Shorten sleeves — plain, unlined", "£16.99"], ["Shorten sleeves with vent", "£28.99"], ["Lengthen sleeves", "£38.99"], ["Shorten hem", "£48"], ["Take in sides", "£58"], ["Lift shoulder", "£33"], ["Lift shoulder & take in side seam", "£58"], ["Replace zip", "£28.99"]] }] },
+  { id: "dry-cleaning", title: "Dry cleaning", groups: [{ title: "Care", items: [["Trousers", "£8.99"], ["Jacket", "£9.99"], ["Two-piece suit", "£18.99"], ["Three-piece suit", "£21.99"], ["Shirt", "£4.99"], ["Medium coat", "£12.99"], ["Long coat", "£16.99"], ["Skirt", "£8.99"], ["Leather jacket", "£54.99"], ["Dress", "£24.99"], ["Wedding dress", "£95"], ["Feather jacket", "£34"], ["Gilet", "£14.99"], ["Feather gilet", "£22.99"]] }] },
+] as const;
