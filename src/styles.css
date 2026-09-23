@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Manrope", sans-serif;
-  --font-display: "Cormorant Garamond", serif;
+  --font-sans: "Work Sans", sans-serif;
+  --font-display: "Instrument Serif", serif;
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 2px);
@@ -24,16 +24,16 @@
 
 :root {
   --radius: .25rem;
-  --background: oklch(.968 .011 78); --foreground: oklch(.19 .012 60);
-  --card: oklch(.988 .006 78); --card-foreground: oklch(.19 .012 60);
-  --popover: oklch(.988 .006 78); --popover-foreground: oklch(.19 .012 60);
-  --primary: oklch(.19 .012 60); --primary-foreground: oklch(.975 .008 78);
-  --secondary: oklch(.9 .022 69); --secondary-foreground: oklch(.19 .012 60);
-  --muted: oklch(.925 .012 75); --muted-foreground: oklch(.43 .018 61);
-  --accent: oklch(.61 .105 15); --accent-foreground: oklch(.98 .006 78);
+  --background: oklch(.958 .006 92); --foreground: oklch(.255 .006 105);
+  --card: oklch(.985 .003 92); --card-foreground: oklch(.255 .006 105);
+  --popover: oklch(.985 .003 92); --popover-foreground: oklch(.255 .006 105);
+  --primary: oklch(.255 .006 105); --primary-foreground: oklch(.97 .004 92);
+  --secondary: oklch(.91 .008 88); --secondary-foreground: oklch(.255 .006 105);
+  --muted: oklch(.925 .006 92); --muted-foreground: oklch(.49 .01 105);
+  --accent: oklch(.59 .018 115); --accent-foreground: oklch(.98 .003 92);
   --destructive: oklch(.56 .2 28); --destructive-foreground: oklch(.98 .006 78);
-  --border: oklch(.79 .018 72); --input: oklch(.79 .018 72); --ring: oklch(.61 .105 15);
-  --ink: oklch(.155 .009 60); --camel: oklch(.65 .073 69); --blush: oklch(.88 .052 10);
+  --border: oklch(.8 .008 90); --input: oklch(.8 .008 90); --ring: oklch(.59 .018 115);
+  --ink: oklch(.255 .006 105); --camel: oklch(.79 .015 85); --blush: oklch(.91 .008 88);
 }
 
 @layer base {
