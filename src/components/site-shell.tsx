@@ -12,8 +12,7 @@ export function SiteHeader() {
   useEffect(() => { document.body.style.overflow = open ? "hidden" : ""; return () => { document.body.style.overflow = ""; }; }, [open]);
   return <>
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-6">
-      <div className="flex w-full items-start justify-between">
-        <Link to="/" aria-label="The Tailor Lady home" className="pointer-events-auto grid min-h-14 grid-cols-[auto_1px_auto] items-center gap-3 border border-border/45 bg-background/94 px-4 shadow-lg backdrop-blur-xl md:min-h-16 md:gap-5 md:px-6"><span className="font-display text-xl leading-none md:text-3xl">The <em className="text-accent">Tailor</em> Lady</span><span className="h-8 bg-border"/><span className="text-[.55rem] font-semibold uppercase leading-4 tracking-[.2em] text-muted-foreground">Bridal<br/>Atelier</span></Link>
+      <div className="flex w-full items-start justify-end">
         <Button variant="pill" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="site-menu" className="pointer-events-auto min-h-14 border-foreground/10 bg-ink px-5 text-primary-foreground shadow-lg hover:bg-accent md:min-h-16 md:px-7"><span className="text-[.62rem] uppercase tracking-[.18em]">Explore</span><Menu aria-hidden="true" /></Button>
       </div>
     </header>

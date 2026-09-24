@@ -4,8 +4,11 @@ import wedding from "@/assets/wedding-suit.jpg";
 import twoPiece from "@/assets/two-piece-suit.jpg";
 import dinner from "@/assets/dinner-jacket.jpg";
 import overcoat from "@/assets/overcoat.jpg";
+import bridalFitting from "@/assets/bridal-fitting.jpg";
+import laceDetail from "@/assets/lace-detail.jpg";
+import bridesmaidFitting from "@/assets/bridesmaid-fitting.jpg";
 
-export const images = { hero, fabric, wedding, twoPiece, dinner, overcoat };
+export const images = { hero, fabric, wedding, twoPiece, dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting };
 
 export const navItems = [
   ["Home", "/"], ["Gallery", "/gallery"], ["About", "/about"],
