@@ -6,6 +6,6 @@ export function HomePreloader() {
   if (reduce && done) return null;
   return <AnimatePresence>{!done && <motion.div className="fixed inset-0 z-[100] flex text-primary-foreground" exit={{pointerEvents:"none"}}>
     <motion.div className="absolute inset-y-0 left-0 w-1/2 bg-ink" exit={{x:"-100%"}} transition={{duration:1,ease:[.76,0,.24,1]}}/><motion.div className="absolute inset-y-0 right-0 w-1/2 bg-ink" exit={{x:"100%"}} transition={{duration:1,ease:[.76,0,.24,1]}}/>
-    <div className="relative z-10 m-auto text-center">{count<100?<p className="font-display text-6xl tabular-nums md:text-8xl" aria-live="polite">{count}<span className="text-2xl">%</span></p>:<motion.div initial={{opacity:0}} animate={{opacity:1}} className="flex items-center gap-5 font-display text-3xl md:text-5xl"><span>The Tailor Lady</span><span className="h-16 w-px bg-accent" aria-hidden="true"/><span className="text-lg font-sans uppercase tracking-[.2em]">Tailors</span></motion.div>}</div>
+    <motion.div className="relative z-10 m-auto text-center" exit={{opacity:0}} transition={{duration:.12}}>{count<100?<p className="font-display text-6xl tabular-nums md:text-8xl" aria-live="polite">{count}<span className="text-2xl">%</span></p>:<motion.div initial={{opacity:0}} animate={{opacity:1}} className="flex items-center gap-5 font-display text-3xl md:text-5xl"><span>The Tailor Lady</span><span className="h-16 w-px bg-accent" aria-hidden="true"/><span className="text-lg font-sans uppercase tracking-[.2em]">Tailors</span></motion.div>}</motion.div>
   </motion.div>}</AnimatePresence>;
 }
