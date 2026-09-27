@@ -27,7 +27,7 @@ export const Route = createFileRoute("/alterations")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/alterations" }],
+    links: [{ rel: "canonical", href: "https://willg06.github.io/TheTailorLady/alterations" }],
   }),
   component: Alterations,
 });

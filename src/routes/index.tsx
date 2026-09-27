@@ -11,6 +11,7 @@ import {
 } from "@/components/site-elements";
 import { Button } from "@/components/ui/button";
 import { images, services } from "@/lib/site-content";
+import { canonicalUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,59 +35,8 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "/" },
+      { rel: "canonical", href: canonicalUrl("/") },
       { rel: "preload", as: "image", href: images.hero, fetchPriority: "high" },
-    ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": ["LocalBusiness", "ProfessionalService", "ClothingStore"],
-          name: "The Tailor Lady",
-          description:
-            "Wedding dress, bridesmaid dress and clothing alterations in Birmingham city centre.",
-          telephone: "+447342477032",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Birmingham",
-            addressCountry: "GB",
-          },
-          areaServed: "Birmingham",
-          priceRange: "££",
-          openingHoursSpecification: [
-            {
-              "@type": "OpeningHoursSpecification",
-              dayOfWeek: [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-              ],
-              opens: "10:00",
-              closes: "18:30",
-            },
-            {
-              "@type": "OpeningHoursSpecification",
-              dayOfWeek: "Saturday",
-              opens: "10:00",
-              closes: "17:00",
-            },
-          ],
-          hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            name: "Alteration services",
-            itemListElement: [
-              "Wedding dress alterations",
-              "Bridesmaid dress alterations",
-              "General clothing alterations",
-              "Tailoring",
-              "Dry cleaning",
-            ],
-          },
-        }),
-      },
     ],
   }),
   component: Home,
@@ -110,7 +60,7 @@ const exploreLinks = [
     note: "Services, turnaround times and pricing",
     cta: "View services",
     to: "/alterations",
-    image: images.hero,
+    image: images.scissors,
   },
   {
     title: "Get in touch",
@@ -150,7 +100,7 @@ function Home() {
             className="absolute left-1/2 top-1/2 overflow-hidden bg-ink text-primary-foreground -translate-x-1/2 -translate-y-1/2"
           >
             <motion.img
-              src={images.hero}
+              src={images.suits}
               alt="Tailor at work in a Birmingham city centre atelier"
               className="absolute inset-0 size-full object-cover object-[center_25%]"
               width={1600}
