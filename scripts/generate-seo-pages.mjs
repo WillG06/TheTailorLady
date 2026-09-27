@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
 const siteUrl = "https://willg06.github.io/TheTailorLady";
@@ -131,3 +131,8 @@ for (const route of routes) {
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, html);
 }
+
+const docsPath = resolve("docs");
+await rm(docsPath, { recursive: true, force: true });
+await cp(resolve("dist"), docsPath, { recursive: true });
+await writeFile(resolve(docsPath, ".nojekyll"), "");
