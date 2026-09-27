@@ -6,7 +6,19 @@
 
 @theme inline {
   --font-sans: "Work Sans", sans-serif;
-  --font-display: "Instrument Serif", serif;
+  --font-display: "Fornire", sans-serif;
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.45;
+  --text-sm: 1.125rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1.25rem;
+  --text-base--line-height: 1.5;
+  --text-lg: 1.375rem;
+  --text-lg--line-height: 1.4;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.35;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.25;
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 2px);
@@ -36,9 +48,17 @@
   --ink: oklch(.255 .006 105); --camel: oklch(.79 .015 85); --blush: oklch(.91 .008 88);
 }
 
+@font-face {
+  font-family: 'Fornire';
+  src: url('./assets/fonts/Fornire-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   * { border-color: var(--border); }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; font-size: 112.5%; }
   body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); }
   h1,h2,h3,h4,p { letter-spacing: 0; }
   a,button,input,select,textarea { outline-offset: 4px; }
@@ -65,4 +85,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+body {
+  font-family: 'Fornire', sans-serif;
 }

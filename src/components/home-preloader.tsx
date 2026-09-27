@@ -2,7 +2,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 export function HomePreloader() {
   const [count,setCount]=useState(0); const [done,setDone]=useState(false); const reduce=useReducedMotion();
-  useEffect(()=>{ if(reduce){setDone(true);return;} const seen=sessionStorage.getItem("ttl-intro"); if(seen){setDone(true);return;} const id=window.setInterval(()=>setCount(v=>{if(v>=100){window.clearInterval(id); window.setTimeout(()=>{sessionStorage.setItem("ttl-intro","1");setDone(true)},650);return 100;} return Math.min(100,v+2)}),22); return()=>window.clearInterval(id)},[reduce]);
+  useEffect(()=>{ if(reduce){setDone(true);return;} if(count>=100)return; const id=window.setTimeout(()=>setCount(value=>Math.min(100,value+2)),22); return()=>window.clearTimeout(id)},[count,reduce]);
+  useEffect(()=>{ if(count<100)return; const id=window.setTimeout(()=>setDone(true),650); return()=>window.clearTimeout(id)},[count]);
   if (reduce && done) return null;
   return <AnimatePresence>{!done && <motion.div className="fixed inset-0 z-[100] flex text-primary-foreground" exit={{pointerEvents:"none"}}>
     <motion.div className="absolute inset-y-0 left-0 w-1/2 bg-ink" exit={{x:"-100%"}} transition={{duration:1,ease:[.76,0,.24,1]}}/><motion.div className="absolute inset-y-0 right-0 w-1/2 bg-ink" exit={{x:"100%"}} transition={{duration:1,ease:[.76,0,.24,1]}}/>

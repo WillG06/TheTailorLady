@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
-  return <p className={cn("text-[0.68rem] font-semibold uppercase tracking-[0.22em]", light ? "text-primary-foreground/70" : "text-accent")}>{children}</p>;
+  return <p className={cn("text-[1rem] font-semibold uppercase tracking-[0.22em]", light ? "text-primary-foreground/70" : "text-accent")}>{children}</p>;
 }
 
 export function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {

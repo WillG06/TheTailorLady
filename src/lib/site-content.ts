@@ -7,8 +7,9 @@ import overcoat from "@/assets/overcoat.jpg";
 import bridalFitting from "@/assets/bridal-fitting.jpg";
 import laceDetail from "@/assets/lace-detail.jpg";
 import bridesmaidFitting from "@/assets/bridesmaid-fitting.jpg";
+import tailorAtWork from "@/assets/tailor-atWork.jpg";
 
-export const images = { hero, fabric, wedding, twoPiece, dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting };
+export const images = { hero, fabric, wedding, twoPiece, dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting, tailorAtWork };
 
 export const navItems = [
   ["Home", "/"], ["Gallery", "/gallery"], ["About", "/about"],
