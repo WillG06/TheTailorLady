@@ -111,7 +111,7 @@ const alterationCards = [
 // hero, wedding), so the 2nd and 3rd slots reuse hero/wedding as
 // placeholders. Swap these for two dedicated shots from the fitting room
 // once you have them, e.g. images.tailorAtWork2 / images.tailorAtWork3.
-const bridalGalleryImages = [images.heroMobile, images.brideBlur, images.footer];
+const bridalGalleryImages = [images.bowBack, images.brideBlur, images.footer];
 
 function Home() {
   const heroRef = useRef<HTMLElement>(null);

@@ -13,10 +13,11 @@ import bridesmaidFitting from "@/assets/bridesmaid-fitting.jpg";
 import brideBlur from "@/assets/brideBlur.jpg";
 import footer from "@/assets/footer.jpg";
 import veil from "@/assets/veil.jpg";
+import bowBack from "@/assets/bowBack.jpg";
 
 
 
-export const images = { hero, heroMobile, suits, scissors, fabric, wedding, twoPiece, dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting, brideBlur, footer, veil } 
+export const images = { hero, heroMobile, suits, scissors, fabric, wedding, twoPiece, dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting, brideBlur, footer, veil, bowBack } 
 
 export const navItems = [
   ["Home", "/"], ["Gallery", "/gallery"],

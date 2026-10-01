@@ -55,7 +55,7 @@ function Alterations() {
             <motion.img
               src={images.fabric}
               alt="Camel wool and blush silk with brass shears in the Birmingham tailoring atelier"
-              className="absolute inset-0 size-full object-cover object-center max-md:scale-[1.12]"
+              className="absolute inset-0 size-full object-cover object-center max-md:object-[calc(50%-90px)_center] max-md:scale-[1.12]"
               width={1600}
               height={1104}
               initial={{ scale: 1.06 }}
