@@ -24,8 +24,8 @@ export function PageHero({ eyebrow, title, intro, image, alt, align = "left" }: 
   </section>;
 }
 
-export function BookingCta({ dark = false }: { dark?: boolean }) {
-  return <Button asChild variant={dark ? "ivory" : "editorial"} size="lg"><Link to="/contact">Book a fitting <ArrowUpRight aria-hidden="true" /></Link></Button>;
+export function BookingCta({ dark = false, className }: { dark?: boolean; className?: string }) {
+  return <Button asChild variant={dark ? "ivory" : "editorial"} size="lg" className={className}><Link to="/contact">Book a fitting <ArrowUpRight aria-hidden="true" /></Link></Button>;
 }
 
 export function SectionHeading({ eyebrow, title, body }: { eyebrow: string; title: string; body?: string }) {

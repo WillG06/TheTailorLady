@@ -1,12 +1,233 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { X } from "lucide-react";
+import { ArrowUpRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { BookingCta, Eyebrow, Reveal } from "@/components/site-elements";
-import { images, services } from "@/lib/site-content";
-const items=[...services.map((s,i)=>({...s,cat:["Suits","Weddings","Suits","Outerwear"][i]??"Suits"})),{id:"bridal-fitting",title:"The Bridal Fitting",note:"A hem shaped for movement.",image:images.bridalFitting,alt:"Wedding dress hem pinned during a bridal fitting in Birmingham",cat:"Weddings"},{id:"lace-work",title:"Lace & Beadwork",note:"Intricate detail, preserved by hand.",image:images.laceDetail,alt:"Fine bridal lace and beadwork being altered by hand",cat:"Fabrics"},{id:"bridesmaids",title:"Bridesmaid Finish",note:"A balanced fit across the bridal party.",image:images.bridesmaidFitting,alt:"Sage bridesmaid dresses being adjusted in the atelier",cat:"Weddings"},{id:"fabric",title:"Cloth & Finish",note:"The material sets the tone.",image:images.fabric,alt:"Camel wool and blush silk with brass shears",cat:"Fabrics"},{id:"shirt",title:"Shirting Study",note:"Collar, cuff and line considered together.",image:images.hero,alt:"Tailor fitting a client in a Birmingham atelier",cat:"Shirts"}];
-export const Route=createFileRoute("/gallery")({head:()=>({meta:[{title:"Bespoke Suit Gallery Birmingham | The Tailor Lady"},{name:"description",content:"Explore bespoke suits, wedding tailoring, outerwear and fine fabrics created by a Birmingham city centre tailor."},{property:"og:title",content:"Bespoke Suit Gallery Birmingham | The Tailor Lady"},{property:"og:description",content:"A considered gallery of bespoke and made to measure commissions in Birmingham."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}],links:[{rel:"canonical",href:"https://willg06.github.io/TheTailorLady/gallery"}]}),component:Gallery});
-function Gallery(){const [filter,setFilter]=useState("All");const [active,setActive]=useState<(typeof items)[number]|null>(null);const shown=filter==="All"?items:items.filter(x=>x.cat===filter);return <><section className="page-wrap grid min-h-[72dvh] gap-8 pb-16 pt-36 md:grid-cols-[1.2fr_.8fr] md:items-end"><div><Eyebrow>Selected commissions</Eyebrow><h1 className="mt-5 font-display text-6xl leading-[.92] md:text-8xl">A gallery of bespoke tailoring in Birmingham.</h1></div><div className="border-l border-border pl-6"><span className="inline-block bg-ink px-4 py-2 text-xs uppercase tracking-[.16em] text-primary-foreground">800+ project images</span><p className="mt-5 leading-7 text-muted-foreground">From first cloth choice to final press: close studies of shape, detail and personal style.</p></div></section><section className="bg-secondary px-5 py-20 md:px-10"><div className="mx-auto max-w-7xl"><div className="mb-10 flex flex-wrap gap-2" role="group" aria-label="Filter gallery">{["All","Suits","Shirts","Outerwear","Weddings","Fabrics"].map(f=><Button key={f} variant={filter===f?"editorial":"outline"} onClick={()=>setFilter(f)}>{f}</Button>)}</div><motion.div layout className="columns-1 gap-4 md:columns-2 lg:columns-3"><AnimatePresence>{shown.map((item,i)=><motion.button layout key={item.id} aria-label={`View ${item.title}`} onClick={()=>setActive(item)} initial={{opacity:0,y:35}} animate={{opacity:1,y:0}} exit={{opacity:0,scale:.96}} transition={{delay:i*.05}} className="mb-4 block w-full break-inside-avoid overflow-hidden bg-card text-left"><img src={item.image} alt={item.alt} width={1200} height={1504} loading="lazy" className={`w-full object-cover ${i%3===0?"aspect-[4/5]":"aspect-square"}`}/><span className="block p-5"><span className="font-display text-2xl">{item.title}</span><span className="mt-1 block text-xs uppercase tracking-[.14em] text-muted-foreground">{item.cat}</span></span></motion.button>)}</AnimatePresence></motion.div></div></section>
-<section className="page-wrap py-24"><Eyebrow>Case studies</Eyebrow><h2 className="mt-4 font-display text-5xl">From conversation to cloth.</h2><div className="mt-12 grid gap-12 md:grid-cols-3">{["A modern city wedding","A working wardrobe","An evening signature"].map((x,i)=><Reveal key={x}><p className="text-xs uppercase tracking-[.16em]">0{i+1}</p><h3 className="mt-4 font-display text-3xl">{x}</h3><ol className="mt-5 space-y-3 border-l border-border pl-5 text-sm text-muted-foreground"><li>Consultation & direction</li><li>Measurement & basted fitting</li><li>Final fitting & finish</li></ol></Reveal>)}</div><div className="mt-12 flex flex-wrap gap-4"><BookingCta/><Button asChild variant="outline"><Link to="/services">Explore services</Link></Button></div></section>
-<AnimatePresence>{active&&<motion.div className="fixed inset-0 z-[80] grid place-items-center bg-ink/95 p-5" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} role="dialog" aria-modal="true" aria-label={active.title} onClick={()=>setActive(null)}><Button variant="ivory" size="icon" className="absolute right-5 top-5 min-h-11 min-w-11 rounded-full" aria-label="Close image"><X/></Button><motion.figure initial={{scale:.94}} animate={{scale:1}} onClick={e=>e.stopPropagation()} className="max-h-[88dvh] max-w-4xl"><img src={active.image} alt={active.alt} className="max-h-[78dvh] w-auto object-contain"/><figcaption className="mt-3 text-center font-display text-2xl text-primary-foreground">{active.title}</figcaption></motion.figure></motion.div>}</AnimatePresence></>}
+import { BookingCta, Eyebrow } from "@/components/site-elements";
+
+const galleryAssets = import.meta.glob<string>(
+	"/src/assets/{gal*,IMG_50*}.{jpg,webp}",
+	{ eager: true, import: "default" },
+);
+
+const galleryAltText: Record<string, string> = {
+	"gal1.jpg": "Bride wearing a strapless satin wedding gown in a bright paneled room",
+	"gal2.webp": "Bride in a fitted lace wedding gown beside arched windows",
+	"gal3.webp": "Bride and groom standing together in their wedding attire",
+	"gal4.webp": "Bride in a full wedding gown on a marble staircase",
+	"gal5.webp": "Bride wearing an off-the-shoulder gown in a bright studio",
+	"gal6.webp": "Bride in a draped wedding gown beside tall windows",
+	"gal7.webp": "Bride wearing a detailed lace wedding gown in a paneled room",
+	"gal8.webp": "Bride in a minimalist satin column wedding dress",
+	"gal9.webp": "Bride in a flowing wedding gown beside a bright window",
+	"gal10.webp": "Bride in a full-skirted wedding gown beside arched windows",
+	"gal11.webp": "Two bridesmaids wearing matching ivory lace dresses",
+	"gal12.webp": "Bride showing the train of her gown in a paneled bridal studio",
+	"gal13.webp": "Bride in a strapless full-skirted wedding gown against a paneled wall",
+	"gal14.jpg": "Bride wearing a short lace wedding dress with a long train on a staircase",
+	"gal15.jpg": "Bride modeling an ivory wedding gown in front of arched windows",
+	"gal16.jpg": "Bride in a lace wedding gown with a full train against a paneled wall",
+	"gal17.jpg": "Bride in a full lace wedding gown beside tall atelier windows",
+	"gal18.jpg": "Bride modeling a wedding gown on a stone staircase",
+	"IMG_5036.jpg": "Bride holding open the lace-edged veil of her full-skirted wedding dress",
+	"IMG_5041.jpg": "Bride in a full lace wedding gown standing on a stone floor",
+	"IMG_5043.jpg": "Bride in a voluminous wedding gown against a light paneled wall",
+	"IMG_5045.jpg": "Bride wearing a fitted bodice and full tulle wedding skirt",
+};
+
+const imageRowSpans = [56, 72, 48, 84, 64, 92, 52, 76, 60, 88, 44];
+
+const items = Object.entries(galleryAssets)
+	.sort(([first], [second]) =>
+		first.localeCompare(second, undefined, { numeric: true }),
+	)
+	.map(([path, image], index) => {
+		const filename = path.split("/").pop() ?? `gallery-image-${index + 1}`;
+		return {
+			id: filename,
+			image,
+			alt: galleryAltText[filename] ?? "Wedding dress from The Tailor Lady gallery",
+			rowSpan: imageRowSpans[index % imageRowSpans.length],
+		};
+	});
+
+const alterationLinks = [
+	{
+		title: "Wedding dress alterations",
+		description: "Hems, bodice adjustments, lace details and train finishing.",
+		hash: "wedding-dress",
+	},
+	{
+		title: "Bridesmaid dress alterations",
+		description: "A comfortable, balanced fit for every member of the bridal party.",
+		hash: "bridesmaid",
+	},
+	{
+		title: "Dress and skirt alterations",
+		description: "Thoughtful adjustments to length, straps and shape.",
+		hash: "dresses-skirts",
+	},
+];
+
+export const Route = createFileRoute("/gallery")({
+	head: () => ({
+		meta: [
+			{ title: "Wedding Dress Alterations Gallery Birmingham | The Tailor Lady" },
+			{
+				name: "description",
+				content:
+					"Explore bridal and bridesmaid dress inspiration, then discover wedding dress alterations and fittings at The Tailor Lady in Birmingham city centre.",
+			},
+			{
+				property: "og:title",
+				content: "Wedding Dress Alterations Gallery Birmingham | The Tailor Lady",
+			},
+			{
+				property: "og:description",
+				content:
+					"Bridal and bridesmaid dress inspiration, with wedding dress alterations in Birmingham city centre.",
+			},
+			{ property: "og:type", content: "website" },
+			{ name: "twitter:card", content: "summary_large_image" },
+		],
+		links: [
+			{
+				rel: "canonical",
+				href: "https://willg06.github.io/TheTailorLady/gallery",
+			},
+		],
+	}),
+	component: Gallery,
+});
+
+function Gallery() {
+	const [active, setActive] = useState<(typeof items)[number] | null>(null);
+
+	return (
+		<>
+			<header className="px-5 pb-10 pt-28 text-center md:px-10 md:pb-12 md:pt-36">
+				<Eyebrow>Bridal alterations · Birmingham</Eyebrow>
+				<h1 className="mt-3 font-display text-5xl leading-none md:text-7xl">
+					Bridal style and fitting inspiration
+				</h1>
+				<p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-muted-foreground md:text-base">
+					A selection of our recent bridal, bridesmaid and alteration work.
+					Each piece is tailored with care, precision and attention to detail.
+				</p>
+				<span className="mt-5 inline-flex rounded-full border border-border px-4 py-1.5 text-xs text-muted-foreground">
+					{items.length}+ photographs
+				</span>
+			</header>
+
+			<section aria-label="Gallery photographs" className="w-full px-4 pb-12 sm:px-5 md:px-8 lg:px-10">
+				<div className="grid w-full grid-cols-2 auto-rows-[4px] grid-flow-dense gap-2 sm:grid-cols-3 lg:grid-cols-5 lg:gap-3">
+					{items.map((item, index) => (
+						<motion.button
+							key={item.id}
+							type="button"
+							aria-label={`View gallery image ${index + 1}`}
+							onClick={() => setActive(item)}
+							initial={{ opacity: 0, y: 32, scale: 0.96 }}
+							whileInView={{ opacity: 1, y: 0, scale: 1 }}
+							viewport={{ once: true, amount: 0.15 }}
+							transition={{
+								type: "spring",
+								stiffness: 380,
+								damping: 18,
+								delay: (index % 5) * 0.035,
+							}}
+							style={{ gridRowEnd: `span ${item.rowSpan}` }}
+							className="group relative block h-full min-w-0 overflow-hidden bg-secondary"
+						>
+							<img
+								src={item.image}
+								alt={item.alt}
+								loading="lazy"
+								className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+							/>
+						</motion.button>
+					))}
+				</div>
+			</section>
+
+			<section className="bg-background px-6 py-16 sm:px-8 md:px-12 md:py-24 xl:px-16">
+				<div className="grid w-full gap-10 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-16">
+					<div>
+						<Eyebrow>Wedding dress alterations · Birmingham</Eyebrow>
+						<h2 className="mt-4 font-display text-4xl leading-tight md:text-5xl">
+							A considered fit, from first pin to final hem.
+						</h2>
+						<p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+							Use the gallery for bridal style inspiration. At our Birmingham city-centre atelier,
+							wedding dress and bridesmaid alterations are planned around each gown, from hem and
+							bodice adjustments to delicate lace and train finishing.
+						</p>
+						<div className="mt-8 flex flex-wrap gap-3">
+							<BookingCta />
+							<Button asChild variant="outline">
+								<Link to="/alterations" hash="prices">View alteration prices</Link>
+							</Button>
+						</div>
+					</div>
+					<nav aria-label="Explore alteration services">
+						<ul className="divide-y divide-border border-y border-border">
+							{alterationLinks.map((item) => (
+								<li key={item.hash}>
+									<Link
+										to="/alterations"
+										hash={item.hash}
+										className="group flex items-center justify-between gap-5 py-5"
+									>
+										<span>
+											<span className="block font-display text-2xl">{item.title}</span>
+											<span className="mt-1 block text-sm leading-6 text-muted-foreground">
+												{item.description}
+											</span>
+										</span>
+										<ArrowUpRight className="size-5 shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true" />
+									</Link>
+								</li>
+							))}
+						</ul>
+					</nav>
+				</div>
+			</section>
+
+			<AnimatePresence>
+				{active && (
+					<motion.div
+						className="fixed inset-0 z-[80] grid place-items-center bg-ink/95 p-5"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						role="dialog"
+						aria-modal="true"
+						aria-label="Gallery image"
+						onClick={() => setActive(null)}
+					>
+						<Button
+							variant="ivory"
+							size="icon"
+							className="absolute right-5 top-5 min-h-11 min-w-11 rounded-full"
+							aria-label="Close image"
+						>
+							<X />
+						</Button>
+						<motion.figure
+							initial={{ scale: 0.94 }}
+							animate={{ scale: 1 }}
+							onClick={(event) => event.stopPropagation()}
+							className="max-h-[88dvh] max-w-5xl"
+						>
+							<img
+								src={active.image}
+								alt={active.alt}
+								className="max-h-[78dvh] w-auto object-contain"
+							/>
+						</motion.figure>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</>
+	);
+}

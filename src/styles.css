@@ -34,18 +34,27 @@
   --color-ink: var(--ink); --color-camel: var(--camel); --color-blush: var(--blush);
 }
 
+/*
+  Brand palette
+  Almond Cream    #F5EADC  -> --camel, --secondary, --muted
+  Blush Petal     #FFD7DB  -> --blush
+  Dusty Rose      #E18498  -> --accent, --ring  (lines, highlights, small details)
+  Warm charcoal (softened espresso) ~#3F3737 -> --ink, --foreground, --primary (dark sections + text)
+
+  Page background and cards stay white. Borders/inputs stay grey on purpose.
+*/
 :root {
   --radius: .25rem;
-  --background: oklch(.958 .006 92); --foreground: oklch(.255 .006 105);
-  --card: oklch(.985 .003 92); --card-foreground: oklch(.255 .006 105);
-  --popover: oklch(.985 .003 92); --popover-foreground: oklch(.255 .006 105);
-  --primary: oklch(.255 .006 105); --primary-foreground: oklch(.97 .004 92);
-  --secondary: oklch(.91 .008 88); --secondary-foreground: oklch(.255 .006 105);
-  --muted: oklch(.925 .006 92); --muted-foreground: oklch(.49 .01 105);
-  --accent: oklch(.59 .018 115); --accent-foreground: oklch(.98 .003 92);
+  --background: oklch(.958 .006 92); --foreground: oklch(.345 .012 15);
+  --card: oklch(.985 .003 92); --card-foreground: oklch(.345 .012 15);
+  --popover: oklch(.985 .003 92); --popover-foreground: oklch(.345 .012 15);
+  --primary: oklch(.345 .012 15); --primary-foreground: oklch(.97 .004 92);
+  --secondary: oklch(.942 .022 74); --secondary-foreground: oklch(.345 .012 15);
+  --muted: oklch(.962 .014 74); --muted-foreground: oklch(.53 .01 20);
+  --accent: oklch(80.989% 0.07545 5.156); --accent-foreground: oklch(.345 .012 15);
   --destructive: oklch(.56 .2 28); --destructive-foreground: oklch(.98 .006 78);
-  --border: oklch(.8 .008 90); --input: oklch(.8 .008 90); --ring: oklch(.59 .018 115);
-  --ink: oklch(.255 .006 105); --camel: oklch(.79 .015 85); --blush: oklch(.91 .008 88);
+  --border: oklch(.8 .008 90); --input: oklch(.8 .008 90); --ring: oklch(80.989% 0.07545 5.156);
+  --ink: oklch(.345 .012 15); --camel: oklch(.942 .022 74); --blush: oklch(.914 .045 11);
 }
 
 @font-face {
@@ -68,6 +77,10 @@
 @utility page-wrap { margin-inline: auto; width: min(100% - 2.5rem, 80rem); }
 @utility bg-hero-overlay { background: linear-gradient(180deg, transparent 20%, color-mix(in oklab, var(--ink) 82%, transparent) 100%); }
 @utility bg-process-image { background: linear-gradient(180deg, transparent 55%, color-mix(in oklab, var(--ink) 24%, transparent) 100%); }
+@utility bg-footer-glow {
+  background-image:
+    radial-gradient(50% 40% at 0% 100%, color-mix(in oklab, var(--blush) 10%, transparent), transparent 70%);
+}
 @utility stack-section { position: relative; margin-top: -10vh; border-radius: 0; }
 @utility image-hover { transition: transform .8s cubic-bezier(.22,1,.36,1); &:hover { transform: scale(1.025); } }
 
@@ -87,6 +100,15 @@
   *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
-body {
-  font-family: 'Fornire', sans-serif;
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 14s linear infinite;
 }

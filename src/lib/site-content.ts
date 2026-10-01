@@ -1,4 +1,5 @@
-import hero from "@/assets/tailor-hero.jpg";
+import hero from "@/assets/hero.jpg";
+import heroMobile from "@/assets/hero-mobile.jpg";
 import suits from "@/assets/suits.jpg";
 import scissors from "@/assets/scissors.jpg";
 import fabric from "@/assets/fabric-detail.jpg";
@@ -9,13 +10,17 @@ import overcoat from "@/assets/overcoat.jpg";
 import bridalFitting from "@/assets/bridal-fitting.jpg";
 import laceDetail from "@/assets/lace-detail.jpg";
 import bridesmaidFitting from "@/assets/bridesmaid-fitting.jpg";
-import tailorAtWork from "@/assets/tailor-atWork.jpg";
+import brideBlur from "@/assets/brideBlur.jpg";
+import footer from "@/assets/footer.jpg";
+import veil from "@/assets/veil.jpg";
 
-export const images = { hero, suits, scissors, fabric, wedding, twoPiece, dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting, tailorAtWork };
+
+
+export const images = { hero, heroMobile, suits, scissors, fabric, wedding, twoPiece, dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting, brideBlur, footer, veil } 
 
 export const navItems = [
-  ["Home", "/"], ["Gallery", "/gallery"], ["About", "/about"],
-  ["Services", "/services"], ["Alterations", "/alterations"],
+  ["Home", "/"], ["Gallery", "/gallery"],
+  ["Our Services", "/alterations"], ["About", "/about"],
   ["Contact", "/contact"], ["FAQ", "/faq"],
 ] as const;
 

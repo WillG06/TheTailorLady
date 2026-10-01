@@ -120,7 +120,7 @@ Target keywords worked naturally into titles, H1s, meta descriptions, URL slugs,
 
 Unique meta title/description per page, primary keyword near the front
 
-Clean URL slugs: /gallery, /about, /contact, /services, /alterations, /faq
+Clean URL slugs: /gallery, /about, /contact, /alterations, /faq
 
 Internal linking between all relevant pages (as noted per page above)
 

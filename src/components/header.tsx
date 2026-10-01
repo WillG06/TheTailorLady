@@ -49,7 +49,7 @@ export function Header() {
 
   return <>
     <header className={`fixed inset-x-0 top-0 z-50 h-[72px] bg-background text-foreground transition-transform duration-700 ease-in-out md:h-[88px] ${headerHidden ? "lg:pointer-events-none lg:-translate-y-full" : "translate-y-0"}`}>
-      <div className="grid h-full grid-cols-[1fr_auto_1fr] items-center px-5 md:px-8">
+      <div className="grid h-full grid-cols-[1fr_auto_1fr] items-center pl-5 pr-[2.5vw] md:pl-8">
         <Button
           variant="pill"
           onClick={() => setOpen(true)}

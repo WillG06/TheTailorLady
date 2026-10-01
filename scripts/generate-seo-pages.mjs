@@ -13,20 +13,11 @@ const routes = [
       "A modern atelier built on proportion, personal expression and enduring craft.",
   },
   {
-    path: "/services",
-    title: "Made to Measure Suits Birmingham | The Tailor Lady",
-    description:
-      "Compare bespoke and made to measure suits in Birmingham, including wedding suits, dinner jackets and overcoats.",
-    ogTitle: "Made to Measure Suits Birmingham | The Tailor Lady",
-    ogDescription:
-      "Bespoke and made to measure tailoring for weddings, work and evening wear.",
-  },
-  {
     path: "/alterations",
-    title: "Suit & Wedding Dress Alterations Birmingham | The Tailor Lady",
+    title: "Our Services | Wedding Dress Alterations Birmingham | The Tailor Lady",
     description:
       "Expert suit alterations, dress alterations and wedding dress alterations in Birmingham city centre.",
-    ogTitle: "Suit & Wedding Dress Alterations Birmingham",
+    ogTitle: "Our Services | The Tailor Lady",
     ogDescription:
       "Precise alterations for suits, dresses and wedding gowns in Birmingham city centre.",
   },

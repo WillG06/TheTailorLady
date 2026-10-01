@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown } from "lucide-react";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { PageHero, SectionHeading } from "@/components/site-elements";
+import { SectionHeading } from "@/components/site-elements";
 import { ProcessStory } from "@/components/process-story";
 import { alterationPrices, images } from "@/lib/site-content";
 
@@ -8,7 +11,7 @@ export const Route = createFileRoute("/alterations")({
   head: () => ({
     meta: [
       {
-        title: "Suit & Wedding Dress Alterations Birmingham | The Tailor Lady",
+        title: "Our Services | Wedding Dress Alterations Birmingham | The Tailor Lady",
       },
       {
         name: "description",
@@ -17,7 +20,7 @@ export const Route = createFileRoute("/alterations")({
       },
       {
         property: "og:title",
-        content: "Suit & Wedding Dress Alterations Birmingham",
+        content: "Our Services | The Tailor Lady",
       },
       {
         property: "og:description",
@@ -33,15 +36,45 @@ export const Route = createFileRoute("/alterations")({
 });
 
 function Alterations() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const heroWidth = useTransform(scrollYProgress, [0, 0.31], ["95%", "100%"]);
+  const heroHeight = useTransform(scrollYProgress, [0, 0.31], ["85%", "100%"]);
+
   return (
     <>
-      <PageHero
-        eyebrow="Bridal alteration specialist"
-        title="Wedding dress alterations in Birmingham, fitted around you."
-        intro="From wedding gowns and bridesmaid dresses to everyday clothing, each change is planned around comfort, movement and the garment's original character."
-        image={images.wedding}
-        alt="Wedding dress prepared for expert alterations in Birmingham"
-      />
+      <section ref={heroRef} className="relative h-[145dvh] bg-background">
+        <div className="sticky top-16 h-[calc(100dvh-4rem)] md:top-[72px] md:h-[calc(100dvh-72px)]">
+          <motion.div
+            style={{ width: heroWidth, height: heroHeight }}
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-ink text-primary-foreground"
+          >
+            <motion.img
+              src={images.fabric}
+              alt="Camel wool and blush silk with brass shears in the Birmingham tailoring atelier"
+              className="absolute inset-0 size-full object-cover object-center max-md:scale-[1.12]"
+              width={1600}
+              height={1104}
+              initial={{ scale: 1.06 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1.8 }}
+            />
+            <div className="absolute inset-0 bg-hero-overlay" />
+            <div className="relative size-full">
+              <h1 className="absolute bottom-7 left-5 z-10 font-display text-4xl leading-none md:bottom-9 md:left-[7.5rem] md:text-6xl">
+                Our Services
+              </h1>
+              <ArrowDown
+                className="absolute bottom-5 right-5 animate-bounce md:bottom-7 md:right-8"
+                aria-hidden="true"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       <PricingSection />
 
@@ -98,7 +131,8 @@ function PricingSection() {
           {alterationPrices.map((category) => (
             <div
               key={category.id}
-              className="grid gap-6 py-12 first:pt-0 last:pb-0 md:grid-cols-12 md:gap-12"
+              id={category.id}
+              className="grid scroll-mt-28 gap-6 py-12 first:pt-0 last:pb-0 md:grid-cols-12 md:gap-12"
             >
               <div className="md:col-span-4">
                 <h3

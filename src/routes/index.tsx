@@ -6,11 +6,10 @@ import { HomePreloader } from "@/components/home-preloader";
 import {
   BookingCta,
   Eyebrow,
-  Reveal,
   SectionHeading,
 } from "@/components/site-elements";
 import { Button } from "@/components/ui/button";
-import { images, services } from "@/lib/site-content";
+import { images } from "@/lib/site-content";
 import { canonicalUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -50,24 +49,61 @@ export const Route = createFileRoute("/")({
 const exploreLinks = [
   {
     title: "Our work",
-    note: "Finished alterations and bridal transformations",
     cta: "Take a look",
     to: "/gallery",
     image: images.wedding,
   },
   {
     title: "Alterations",
-    note: "Services, turnaround times and pricing",
     cta: "View services",
     to: "/alterations",
     image: images.scissors,
   },
   {
     title: "Get in touch",
-    note: "Book a fitting or ask a question",
     cta: "Contact us",
     to: "/contact",
     image: images.hero,
+  },
+];
+
+const alterationCards = [
+  {
+    id: "wedding-dress",
+    title: "Wedding dress alterations",
+    mobileTitle: "Wedding dresses",
+    image: images.bridalFitting,
+    alt: "Wedding dress prepared for a bridal fitting",
+  },
+  {
+    id: "bridesmaid",
+    title: "Bridesmaid dresses",
+    image: images.bridesmaidFitting,
+    alt: "Bridesmaid dress being fitted",
+  },
+  {
+    id: "dresses-skirts",
+    title: "Dresses & skirts",
+    image: images.laceDetail,
+    alt: "Delicate dress fabric detail",
+  },
+  {
+    id: "trousers-jeans",
+    title: "Trousers & jeans",
+    image: images.twoPiece,
+    alt: "Tailored trousers in a suit",
+  },
+  {
+    id: "jackets-coats",
+    title: "Jackets & coats",
+    image: images.overcoat,
+    alt: "Tailored overcoat",
+  },
+  {
+    id: "dry-cleaning",
+    title: "Dry cleaning",
+    image: images.fabric,
+    alt: "Garment fabric prepared for professional care",
   },
 ];
 
@@ -75,7 +111,7 @@ const exploreLinks = [
 // hero, wedding), so the 2nd and 3rd slots reuse hero/wedding as
 // placeholders. Swap these for two dedicated shots from the fitting room
 // once you have them, e.g. images.tailorAtWork2 / images.tailorAtWork3.
-const bridalGalleryImages = [images.tailorAtWork, images.hero, images.wedding];
+const bridalGalleryImages = [images.heroMobile, images.brideBlur, images.footer];
 
 function Home() {
   const heroRef = useRef<HTMLElement>(null);
@@ -88,7 +124,6 @@ function Home() {
 
   const [activeCard, setActiveCard] = useState(-1);
   const [bridalIndex, setBridalIndex] = useState(0);
-
   return (
     <>
       <HomePreloader />
@@ -99,95 +134,142 @@ function Home() {
             style={{ width: heroWidth, height: heroHeight }}
             className="absolute left-1/2 top-1/2 overflow-hidden bg-ink text-primary-foreground -translate-x-1/2 -translate-y-1/2"
           >
-            <motion.img
-              src={images.suits}
-              alt="Tailor at work in a Birmingham city centre atelier"
-              className="absolute inset-0 size-full object-cover object-[center_25%]"
-              width={1600}
-              height={1104}
-              initial={{ scale: 1.06 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.8 }}
-            />
+            <picture className="absolute inset-0 size-full">
+              <source media="(max-width: 767px)" srcSet={images.heroMobile} />
+
+              <motion.img
+                src={images.hero}
+                alt="Tailor at work in a Birmingham city centre atelier"
+                className="size-full object-cover object-[center_30%] max-md:object-cover max-md:scale-[1.2]"
+                width={700}
+                height={700}
+                initial={{ scale: 1.06 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1.8 }}
+              />
+            </picture>
+
             <div className="absolute inset-0 bg-hero-overlay" />
-            <div className="relative mx-auto flex size-full max-w-7xl flex-col justify-end px-5 pb-12 pt-10 md:px-10 md:pb-16 lg:pb-20">
-              <Eyebrow light>Bridal alterations · Birmingham</Eyebrow>
-              <h1 className="mt-5 max-w-5xl font-display text-5xl leading-[.88] sm:text-6xl md:text-8xl lg:text-[7.6rem]">
-                The perfect dress.
-                <br />
-                <em className="text-accent">Made truly yours.</em>
-              </h1>
-              <div className="mt-7 flex max-w-2xl flex-col items-start justify-between gap-5 sm:flex-row sm:items-end sm:gap-7">
-                <p className="max-w-md text-sm leading-6 text-primary-foreground/80 md:text-base md:leading-7">
-                  Specialist wedding dress and bridesmaid alterations in
-                  Birmingham city centre, shaped around comfort, movement and
-                  confidence.
-                </p>
-                <BookingCta dark />
+
+            <div className="relative flex size-full flex-col justify-end px-5 pb-28 pt-10 md:pb-16 md:pl-[7.5rem] md:pr-10 lg:pb-20">
+
+              {/* Desktop eyebrow — unchanged */}
+              <div className="hidden md:block">
+                <Eyebrow light>Bridal alterations · Birmingham</Eyebrow>
               </div>
+
+              {/* Mobile marquee */}
+              <div className="absolute left-0 top-5 z-10 w-full overflow-hidden md:hidden">
+                <motion.div
+                  className="flex w-max whitespace-nowrap text-xs font-medium uppercase tracking-[.18em] text-primary-foreground"
+                  animate={{ x: ["0%", "-50%"] }}
+                  transition={{
+                    duration: 14,
+                    ease: "linear",
+                    repeat: Infinity,
+                  }}
+                >
+                  <span className="shrink-0 pr-8">
+                    Bridal alterations · Birmingham
+                  </span>
+                  <span className="shrink-0 pr-8">
+                    Bridal alterations · Birmingham
+                  </span>
+                </motion.div>
+              </div>
+
+              <h1 className="mt-5 font-display text-[clamp(3.5rem,10vw,9rem)] leading-[.88] tracking-[.02em]">
+                Made to be yours.
+                <br />
+                {/* <em className="text-accent">Made truly yours.</em> */}
+              </h1>
+
+              <div className="mt-7 flex max-w-3xl flex-col items-start justify-between gap-5 sm:flex-row sm:items-end sm:gap-7">
+                <div className="max-w-[22rem] md:max-w-md">
+                  <p className="text-[13px] leading-6 text-primary-foreground/80 md:text-base md:leading-7">
+                    Wedding dress and bridesmaid alterations in Birmingham city
+                    centre, tailored for comfort, movement and confidence.
+                  </p>
+                  <Link
+                    to="/alterations"
+                    className="mt-4 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[.14em] text-primary-foreground transition-colors hover:text-accent"
+                  >
+                    Our Services
+                    <ArrowUpRight className="size-4" aria-hidden="true" />
+                  </Link>
+                </div>
+
+                {/* Button moves lower only on mobile */}
+                <BookingCta
+                  dark
+                  className="px-3 max-md:absolute max-md:bottom-5 max-md:left-5"
+                />
+              </div>
+
               <ArrowDown
                 className="absolute bottom-5 right-5 animate-bounce md:bottom-7 md:right-8"
                 aria-hidden="true"
               />
             </div>
-        </motion.div>
+          </motion.div>
         </div>
       </section>
 
       <div className="bg-background">
-        <section className="relative px-5 py-24 md:px-10 md:py-32">
+        <section className="relative w-full px-5 py-20 md:px-10 md:py-28">
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 top-1 z-10 h-1 bg-[#c21869]"
+            className="absolute inset-x-0 top-1 z-10 h-0.5 bg-[#c21869]"
           />
-          <div className="mx-auto max-w-7xl">
-            <SectionHeading
-              eyebrow="Alterations & tailoring"
-              title="Beautiful clothes, fitted for your life."
-              body="Bridal is at the heart of the atelier, supported by considered alterations, tailoring and professional garment care."
-            />
-            <div className="mt-14 grid gap-4 md:grid-cols-12">
-              {services.map((s, i) => (
-                <Reveal
-                  key={s.id}
-                  className={i === 0 || i === 3 ? "md:col-span-7" : "md:col-span-5"}
-                >
-                  <Link
-                    to="/services"
-                    hash={s.id}
-                    className="group block overflow-hidden bg-card"
-                  >
-                    <div
-                      className={
-                        i === 0 || i === 3
-                          ? "aspect-[16/11] overflow-hidden"
-                          : "aspect-[4/5] overflow-hidden"
-                      }
-                    >
-                      <img
-                        src={s.image}
-                        alt={s.alt}
-                        width={1200}
-                        height={1504}
-                        loading="lazy"
-                        className="image-hover size-full object-cover"
-                      />
-                    </div>
-                    <div className="flex items-end justify-between p-5">
-                      <div>
-                        <h3 className="font-display text-3xl">{s.title}</h3>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          {s.note}
-                        </p>
-                      </div>
-                      <ArrowUpRight className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                    </div>
-                  </Link>
-                </Reveal>
-              ))}
+          <div className="w-full">
+            <div className="flex flex-col gap-8 md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10">
+              <SectionHeading
+                eyebrow="Alterations & tailoring"
+                title="Beautiful clothes, fitted for YOU."
+                body="Bridal is at the heart of the atelier, supported by considered alterations, tailoring and professional garment care."
+              />
+              <div className="md:pb-1">
+                <BookingCta />
+              </div>
             </div>
-            <div className="mt-12">
-              <BookingCta />
+
+            <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-8 md:mt-14 md:grid-cols-3 md:gap-x-6 md:gap-y-10">
+              {alterationCards.map((card) => (
+                <Link
+                  key={card.id}
+                  to="/alterations"
+                  hash={card.id}
+                  className="group min-w-0"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-tl-[16px] rounded-tr-[48px] rounded-br-[16px] rounded-bl-[48px] bg-ink">
+                    <img
+                      src={card.image}
+                      alt={card.alt}
+                      width={1200}
+                      height={900}
+                      loading="lazy"
+                      className="image-hover absolute inset-0 size-full object-cover"
+                    />
+                  </div>
+                  <div className="flex items-start justify-between gap-3 pt-3">
+                    <h3 className="font-display text-xl leading-tight md:text-2xl">
+                      {card.mobileTitle ? (
+                        <>
+                          <span className="whitespace-nowrap md:hidden">
+                            {card.mobileTitle}
+                          </span>
+                          <span className="hidden md:inline">
+                            {card.title}
+                          </span>
+                        </>
+                      ) : (
+                        card.title
+                      )}
+                    </h3>
+                    <ArrowUpRight className="mt-1 size-4 shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
@@ -211,24 +293,33 @@ function Home() {
             The headline stays on one line from md up too, sized off vw so
             it scales to fit the full-width section without wrapping; below
             md it still wraps normally so it doesn't shrink to nothing on a
-            phone. */}
-        <section className="relative flex min-h-dvh flex-col overflow-hidden bg-card">
+            phone.
+
+            IMAGE SIZING: every card image is rendered in a fixed-size box
+            (md:w-[50vw] — the widest a card can ever get) centred inside
+            the card, and the card just masks/reveals it. Previously the
+            img was size-full object-cover, so its scale changed with each
+            card's width and with the source photo's aspect ratio (portrait
+            shots got zoomed hard as a card expanded, landscape ones didn't).
+            Now every card shows its image at the same size as the expanded
+            "Get in touch" one. */}
+        <section className="relative flex min-h-[75dvh] flex-col overflow-hidden bg-card md:min-h-dvh">
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 top-[15px] z-10 h-px bg-[#c21869]"
+            className="absolute inset-x-0 top-[15px] z-10 h-0.5 bg-[#c21869]"
           />
-          <div className="flex w-full flex-1 flex-col px-5 py-16 md:px-10 md:py-20">
+          <div className="flex w-full flex-1 flex-col px-5 pb-6 pt-12 md:px-10 md:py-20">
             <Eyebrow>Explore the atelier</Eyebrow>
-            <h2 className="mt-6 font-display leading-[0.9] text-[clamp(3rem,8vw,8.5rem)] md:whitespace-nowrap md:text-[clamp(2rem,4.5vw,7.25rem)]">
+            <h2 className="mt-5 font-display text-[clamp(2.75rem,12vw,4rem)] leading-[0.9] md:mt-6 md:whitespace-nowrap md:text-[clamp(2rem,4.5vw,7.25rem)]">
               See the work, then bring us yours.
             </h2>
-            <p className="mt-8 max-w-xl text-lg leading-8 text-muted-foreground md:text-xl">
+            <p className="mt-5 max-w-[32ch] text-base leading-6 text-muted-foreground md:mt-8 md:max-w-xl md:text-lg md:leading-8 md:text-xl">
               Browse finished alterations, check bridal pricing, or get in
               touch to book your own fitting.
             </p>
 
             <div
-              className="mt-12 flex flex-1 flex-col gap-3 md:mt-16 md:flex-row"
+              className="mt-12 flex flex-col gap-1 md:mt-16 md:flex-1 md:flex-row md:gap-3 md:pt-0"
               onMouseLeave={() => setActiveCard(-1)}
             >
               {exploreLinks.map((item, i) => (
@@ -236,7 +327,7 @@ function Home() {
                   key={item.title}
                   to={item.to}
                   className={
-                    "group relative min-h-[22rem] w-full overflow-hidden rounded-tl-[28px] rounded-tr-[96px] rounded-br-[28px] rounded-bl-[96px] bg-ink transition-[flex-grow] duration-500 ease-out md:min-h-0 " +
+                    "group relative flex w-full items-center gap-4 py-1 md:min-h-0 md:flex-1 md:gap-0 md:overflow-hidden md:rounded-tl-[28px] md:rounded-tr-[96px] md:rounded-br-[28px] md:rounded-bl-[96px] md:bg-ink md:py-0 md:transition-[flex-grow] md:duration-500 md:ease-out " +
                     (activeCard === i
                       ? i === 1
                         ? "md:flex-[2]"
@@ -246,50 +337,50 @@ function Home() {
                   onMouseEnter={() => setActiveCard(i)}
                   onFocus={() => setActiveCard(i)}
                 >
-                  <img
-                    src={item.image}
-                    alt=""
-                    width={800}
-                    height={1000}
-                    loading="lazy"
-                    className={
-                      "size-full object-cover transition-all duration-500 ease-out md:scale-105 " +
-                      (activeCard === i
-                        ? "md:scale-100 md:opacity-100 md:blur-0"
-                        : "md:opacity-40 md:blur-[2px]")
-                    }
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/20 to-transparent" />
+                  <div className="relative size-[5.25rem] shrink-0 overflow-hidden rounded-[1.5rem] md:absolute md:inset-0 md:flex md:size-auto md:justify-center md:rounded-none">
+                    <img
+                      src={item.image}
+                      alt=""
+                      width={1600}
+                      height={1104}
+                      loading="lazy"
+                      className={
+                        "size-full rounded-[1.25rem] object-cover md:h-full md:w-full md:rounded-none md:transition-all md:duration-500 md:ease-out md:w-[50vw] md:max-w-none md:shrink-0 md:scale-105 " +
+                        (activeCard === i
+                          ? "md:scale-100 md:opacity-100 md:blur-0"
+                          : "md:opacity-40 md:blur-[2px]")
+                      }
+                    />
+                  </div>
+                  <div className="absolute inset-0 hidden bg-gradient-to-t from-ink/95 via-ink/20 to-transparent md:block" />
                   <div
                     className={
-                      "absolute inset-0 flex flex-col items-start justify-end p-7 text-left transition-all duration-500 md:p-10 " +
+                      "flex min-w-0 flex-1 items-center justify-between gap-3 text-left md:absolute md:inset-0 md:flex md:flex-col md:items-start md:justify-end md:p-10 md:transition-all md:duration-500 " +
                       (activeCard === i
                         ? "md:flex-row md:items-end md:justify-between md:text-left"
                         : "md:items-center md:justify-center md:text-center")
                     }
                   >
                     <div className="min-w-0">
-                      <h3 className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-display text-4xl leading-none text-primary-foreground md:text-5xl">
-                        {item.title}
-                      </h3>
-                      <p
+                      <h3
                         className={
-                          "mt-3 max-w-[26ch] text-base leading-6 text-primary-foreground/75 " +
-                          (activeCard === i ? "" : "md:hidden")
+                          "max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-display text-2xl leading-none md:text-4xl md:text-primary-foreground md:text-5xl " +
+                          (activeCard === i ? "md:hidden" : "")
                         }
                       >
-                        {item.note}
-                      </p>
+                        {item.title}
+                      </h3>
                     </div>
                     <span
                       className={
-                        "mt-6 inline-flex shrink-0 items-center gap-2.5 text-xl font-medium text-primary-foreground drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] md:mt-0 " +
+                        "hidden shrink-0 items-center gap-2.5 text-xl font-medium text-primary-foreground drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] md:mt-0 md:inline-flex " +
                         (activeCard === i ? "" : "md:hidden")
                       }
                     >
                       {item.cta}
                       <ArrowUpRight className="size-6" />
                     </span>
+                    <ArrowUpRight className="size-5 shrink-0 text-foreground md:hidden" aria-hidden="true" />
                   </div>
                 </Link>
               ))}
@@ -297,117 +388,91 @@ function Home() {
           </div>
         </section>
 
-        <section className="relative px-5 py-24 md:px-10 md:py-32">
+        {/* Custom wedding work — full-screen section (min-h-dvh) with a
+            single photo at 75% of the viewport height, inset by the same
+            page padding as the other sections. The whole photo is a link to
+            /custom-wedding-work, with the title centred over a dark wash so
+            it reads on any image. Swap images.wedding for a dedicated shot
+            (the reference style is a moody, desaturated editorial photo). */}
+        <section className="relative flex min-h-dvh items-center bg-background px-5 py-10 md:px-10">
           <div
             aria-hidden="true"
-            className="absolute inset-x-0 bottom-2 z-10 h-1 bg-[#c21869]"
+            className="absolute inset-x-0 bottom-2 z-10 h-0.5 bg-[#c21869]"
           />
-          <div className="mx-auto max-w-7xl">
-            <div className="grid gap-10 lg:grid-cols-12">
-              <div className="lg:col-span-4">
-                <Eyebrow>Beyond the bridal suite</Eyebrow>
-                <h2 className="mt-5 font-display text-5xl leading-none md:text-7xl">
-                  Care for the rest of your wardrobe.
-                </h2>
-              </div>
-              <div className="grid gap-px bg-border lg:col-span-8 md:grid-cols-2">
-                {[
-                  [
-                    "General alterations",
-                    "Dresses, skirts, trousers, jeans, shirts, jackets and coats — refined for fit, length and everyday ease.",
-                  ],
-                  [
-                    "Dry cleaning",
-                    "Professional care for tailoring, outerwear, dresses, wedding dresses and specialist pieces.",
-                  ],
-                  [
-                    "Bridesmaid dresses",
-                    "Hems, side seams and shoulder adjustments for a beautifully balanced bridal party.",
-                  ],
-                  [
-                    "Personal assessment",
-                    "Complex construction, delicate cloth and involved repairs are assessed individually before work begins.",
-                  ],
-                ].map(([title, copy], i) => (
-                  <article
-                    key={title}
-                    className={
-                      i === 0
-                        ? "bg-ink p-8 text-primary-foreground md:p-10"
-                        : "bg-card p-8 md:p-10"
-                    }
-                  >
-                    <p className="text-xs uppercase tracking-[.18em] text-accent">
-                      0{i + 1}
-                    </p>
-                    <h3 className="mt-9 font-display text-4xl">{title}</h3>
-                    <p
-                      className={
-                        i === 0
-                          ? "mt-4 leading-7 text-primary-foreground/65"
-                          : "mt-4 leading-7 text-muted-foreground"
-                      }
-                    >
-                      {copy}
-                    </p>
-                  </article>
-                ))}
-              </div>
+          <Link
+            to="/custom-wedding-work"
+            className="group relative block h-[75dvh] w-full overflow-hidden bg-ink"
+          >
+            <img
+              src={images.fabric}
+              alt="Bride in a custom wedding dress"
+              width={1600}
+              height={1104}
+              loading="lazy"
+              className="image-hover absolute inset-0 size-full object-cover"
+            />
+            <div className="absolute inset-0 bg-ink/40 transition-colors duration-500 group-hover:bg-ink/25" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-primary-foreground">
+              <h2 className="font-display text-5xl leading-[.95] md:text-8xl">
+                Custom wedding work
+              </h2>
+              <span className="mt-6 inline-flex items-center gap-2.5 text-lg font-medium md:text-xl">
+                Explore
+                <ArrowUpRight className="size-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 md:size-6" />
+              </span>
             </div>
-          </div>
+          </Link>
         </section>
 
-        
-        {/* Moved here from its old spot between the services grid and
-            "Beyond the bridal suite" — now sits directly above the final
-            booking CTA. */}
+        {/* Bridal gallery.
+
+            MOBILE (below lg): a single plain rectangular photo, inset by the
+            same px-5 page padding as the hero, no rounded corners, border,
+            caption or arrow. The "Bridal is our focus" eyebrow sits on the
+            photo's top-right corner, with a soft dark gradient behind it so
+            it stays readable over the light image. Swap
+            bridalGalleryImages[0] for a dedicated image if you'd rather not
+            reuse the hero's mobile shot.
+
+            DESKTOP (lg+): unchanged — two full-size images followed by the
+            arrow, with the eyebrow back in the text column. Each mobile-only
+            piece is lg:hidden and each desktop-only piece is hidden lg:*, so
+            only one version is ever visible. */}
         <section className="relative overflow-hidden bg-ink text-primary-foreground">
-          <div className="mx-auto grid min-h-[85dvh] max-w-[100rem] lg:grid-cols-12">
-            <div className="relative flex min-h-[30rem] items-center justify-center overflow-hidden p-8 lg:col-span-7 lg:min-h-[38rem] lg:p-14">
-              {/* Previous image — same card size as the active one, half cropped off the left edge with a gap */}
-              <div className="pointer-events-none absolute left-0 top-1/2 z-0 aspect-[4/5] w-full max-w-md -translate-x-[calc(50%+1rem)] -translate-y-1/2 overflow-hidden rounded-tl-[20px] rounded-tr-[60px] rounded-br-[20px] rounded-bl-[60px] opacity-50 blur-[2px] md:max-w-lg">
+          <div className="grid w-full lg:min-h-[85dvh] lg:grid-cols-12">
+            {/* Mobile — plain rectangle with eyebrow overlaid top-right */}
+            <div className="px-5 pt-10 lg:hidden">
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-ink sm:aspect-[5/4]">
                 <img
-                  src={
-                    bridalGalleryImages[
-                      (bridalIndex + bridalGalleryImages.length - 1) %
-                        bridalGalleryImages.length
-                    ]
-                  }
-                  alt=""
-                  width={800}
-                  height={1000}
+                  src={bridalGalleryImages[0]}
+                  alt="Wedding dress tailoring detail for a bridal fitting"
+                  width={1200}
+                  height={1504}
                   loading="lazy"
-                  className="absolute inset-0 size-full object-cover"
+                  className="size-full object-cover"
                 />
-                <div className="absolute inset-0 bg-ink/40" />
-              </div>
-
-              {/* Next image — same card size, mostly cropped off the right edge with a gap */}
-              <div className="pointer-events-none absolute right-0 top-1/2 z-0 aspect-[4/5] w-full max-w-md translate-x-[calc(70%+1rem)] -translate-y-1/2 overflow-hidden rounded-tl-[20px] rounded-tr-[60px] rounded-br-[20px] rounded-bl-[60px] opacity-50 blur-[2px] md:max-w-lg">
-                <img
-                  src={
-                    bridalGalleryImages[
-                      (bridalIndex + 1) % bridalGalleryImages.length
-                    ]
-                  }
-                  alt=""
-                  width={800}
-                  height={1000}
-                  loading="lazy"
-                  className="absolute inset-0 size-full object-cover"
+                {/* Soft top gradient so the light eyebrow reads on a pale photo */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-ink/60 to-transparent"
                 />
-                <div className="absolute inset-0 bg-ink/40" />
+                <div className="absolute right-4 top-4 z-10 text-right">
+                  <Eyebrow light>Bridal is our focus</Eyebrow>
+                </div>
               </div>
+            </div>
 
-              {/* Active image */}
-              <div className="relative z-10 aspect-[4/5] w-full max-w-md overflow-hidden rounded-tl-[20px] rounded-tr-[60px] rounded-br-[20px] rounded-bl-[60px] md:max-w-lg">
+            {/* Desktop — two-image carousel */}
+            <div className="relative hidden min-h-[38rem] items-center gap-10 overflow-hidden lg:col-span-7 lg:flex lg:justify-center lg:py-14 lg:pl-0 lg:pr-14">
+              {/* Left — active image */}
+              <div className="relative z-10 aspect-[4/5] w-[33%] shrink-0 overflow-hidden rounded-tl-[20px] rounded-tr-[60px] rounded-br-[20px] rounded-bl-[60px] border border-white">
                 <img
                   src={bridalGalleryImages[bridalIndex]}
                   alt="Wedding dress tailoring detail for a bridal fitting"
                   width={1200}
                   height={1504}
                   loading="lazy"
-                  className="absolute inset-0 size-full object-cover opacity-80"
+                  className={`absolute inset-0 size-full scale-125 ${bridalGalleryImages[bridalIndex] === images.brideBlur ? "object-contain" : "object-cover"} opacity-80`}
                 />
                 <div className="absolute inset-0 bg-process-image" />
                 <p className="absolute bottom-6 left-6 max-w-[75%] text-xs uppercase tracking-[.18em] text-primary-foreground/70 md:bottom-8 md:left-8">
@@ -415,6 +480,20 @@ function Home() {
                 </p>
               </div>
 
+              {/* Right — second full-size image */}
+              <div className="relative aspect-[4/5] w-[33%] shrink-0 overflow-hidden rounded-tl-[20px] rounded-tr-[60px] rounded-br-[20px] rounded-bl-[60px] border border-white">
+                <img
+                  src={bridalGalleryImages[(bridalIndex + 1) % bridalGalleryImages.length]}
+                  alt=""
+                  width={800}
+                  height={1000}
+                  loading="lazy"
+                  className="absolute inset-0 size-full scale-125 object-cover opacity-80"
+                />
+                <div className="absolute inset-0 bg-process-image" />
+              </div>
+
+              {/* Arrow — unchanged */}
               <button
                 type="button"
                 onClick={() =>
@@ -423,17 +502,21 @@ function Home() {
                   )
                 }
                 aria-label="Show next photo"
-                className="absolute right-3 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-primary-foreground/40 bg-ink/70 text-primary-foreground backdrop-blur transition hover:bg-ink md:right-6"
+                className="relative z-20 ml-6 flex size-11 shrink-0 translate-x-2 items-center justify-center rounded-full border border-primary-foreground/40 bg-ink/70 text-primary-foreground backdrop-blur transition hover:bg-ink"
               >
                 <ChevronRight className="size-5" />
               </button>
             </div>
+
             <div className="flex flex-col justify-center px-7 pb-16 pt-10 lg:col-span-5 lg:px-14 lg:py-20">
-              <Eyebrow light>Bridal is our focus</Eyebrow>
-              <h2 className="mt-5 font-display text-5xl leading-[.95] md:text-7xl">
-                Considered from first pin to final fitting.
+              {/* Desktop-only eyebrow — on mobile it lives on the photo */}
+              <div className="hidden lg:block">
+                <Eyebrow light>Bridal is our focus</Eyebrow>
+              </div>
+              <h2 className="font-display text-5xl leading-[.95] md:text-7xl lg:mt-5">
+                Professionally considered from design to fitting.
               </h2>
-              <p className="mt-7 max-w-lg text-[24px] leading-9 text-primary-foreground/85 md:text-[28px]">
+              <p className="mt-7 max-w-lg text-base leading-7 text-primary-foreground/85 md:text-[28px] md:leading-9">
                 From a clean hem to intricate lace, beadwork, bodice
                 reshaping and train bustles, every alteration is assessed
                 around the construction of your dress and how you want to
@@ -452,7 +535,7 @@ function Home() {
         </section>
 
         <div aria-hidden="true" className="relative h-[20px] bg-white">
-          <div className="absolute inset-x-0 bottom-1 h-[3px] bg-[#c21869]" />
+          <div className="absolute inset-x-0 bottom-1 h-0.5 bg-[#c21869]" />
         </div>
 
         {/* <section className="px-5 py-20 md:px-10 md:py-28">
