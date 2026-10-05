@@ -51,19 +51,19 @@ const exploreLinks = [
     title: "Our work",
     cta: "Take a look",
     to: "/gallery",
-    image: images.wedding,
+    image: images.smile,
   },
   {
     title: "Alterations",
     cta: "View services",
     to: "/alterations",
-    image: images.scissors,
+    image: images.alterations,
   },
   {
     title: "Get in touch",
     cta: "Contact us",
     to: "/contact",
-    image: images.hero,
+    image: images.contact,
   },
 ];
 
@@ -72,37 +72,37 @@ const alterationCards = [
     id: "wedding-dress",
     title: "Wedding dress alterations",
     mobileTitle: "Wedding dresses",
-    image: images.bridalFitting,
+    image: images.brideBlur,
     alt: "Wedding dress prepared for a bridal fitting",
   },
   {
     id: "bridesmaid",
     title: "Bridesmaid dresses",
-    image: images.bridesmaidFitting,
+    image: images.gall11,
     alt: "Bridesmaid dress being fitted",
   },
   {
     id: "dresses-skirts",
     title: "Dresses & skirts",
-    image: images.laceDetail,
+    image: images.gal12,
     alt: "Delicate dress fabric detail",
   },
   {
     id: "trousers-jeans",
     title: "Trousers & jeans",
-    image: images.twoPiece,
+    image: images.bowBack,
     alt: "Tailored trousers in a suit",
   },
   {
     id: "jackets-coats",
     title: "Jackets & coats",
-    image: images.overcoat,
+    image: images.gal18,
     alt: "Tailored overcoat",
   },
   {
     id: "dry-cleaning",
     title: "Dry cleaning",
-    image: images.fabric,
+    image: images.gal3,
     alt: "Garment fabric prepared for professional care",
   },
 ];
@@ -184,7 +184,7 @@ function Home() {
                 {/* <em className="text-accent">Made truly yours.</em> */}
               </h1>
 
-              <div className="mt-7 flex max-w-3xl flex-col items-start justify-between gap-5 sm:flex-row sm:items-end sm:gap-7">
+              <div className="mt-7 max-w-3xl">
                 <div className="max-w-[22rem] md:max-w-md">
                   <p className="text-[13px] leading-6 text-primary-foreground/80 md:text-base md:leading-7">
                     Wedding dress and bridesmaid alterations in Birmingham city
@@ -198,18 +198,20 @@ function Home() {
                     <ArrowUpRight className="size-4" aria-hidden="true" />
                   </Link>
                 </div>
-
-                {/* Button moves lower only on mobile */}
-                <BookingCta
-                  dark
-                  className="px-3 max-md:absolute max-md:bottom-5 max-md:left-5"
-                />
               </div>
 
+              <BookingCta
+                dark
+                className="absolute bottom-5 left-5 z-10 px-3 md:hidden"
+              />
               <ArrowDown
-                className="absolute bottom-5 right-5 animate-bounce md:bottom-7 md:right-8"
+                className="absolute bottom-5 right-5 size-5 animate-bounce md:hidden"
                 aria-hidden="true"
               />
+              <div className="absolute bottom-7 right-8 z-10 hidden items-center gap-8 md:flex">
+                <BookingCta dark className="px-3" />
+                <ArrowDown className="size-6 animate-bounce" aria-hidden="true" />
+              </div>
             </div>
           </motion.div>
         </div>
@@ -225,7 +227,7 @@ function Home() {
             <div className="flex flex-col gap-8 md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10">
               <SectionHeading
                 eyebrow="Alterations & tailoring"
-                title="Beautiful clothes, fitted for YOU."
+                title="Beautiful dresses, fitted to YOU."
                 body="Bridal is at the heart of the atelier, supported by considered alterations, tailoring and professional garment care."
               />
               <div className="md:pb-1">
@@ -239,7 +241,7 @@ function Home() {
                   key={card.id}
                   to="/alterations"
                   hash={card.id}
-                  className="group min-w-0"
+                  className="group min-w-0 cursor-pointer"
                 >
                   <div className="relative aspect-[4/3] overflow-hidden rounded-tl-[16px] rounded-tr-[48px] rounded-br-[16px] rounded-bl-[48px] bg-ink">
                     <img
@@ -248,7 +250,7 @@ function Home() {
                       width={1200}
                       height={900}
                       loading="lazy"
-                      className="image-hover absolute inset-0 size-full object-cover"
+                      className="image-hover absolute inset-0 size-full object-cover object-top transition-transform group-hover:scale-105 group-focus-visible:scale-105"
                     />
                   </div>
                   <div className="flex items-start justify-between gap-3 pt-3">
@@ -327,7 +329,7 @@ function Home() {
                   key={item.title}
                   to={item.to}
                   className={
-                    "group relative flex w-full items-center gap-4 py-1 md:min-h-0 md:flex-1 md:gap-0 md:overflow-hidden md:rounded-tl-[28px] md:rounded-tr-[96px] md:rounded-br-[28px] md:rounded-bl-[96px] md:bg-ink md:py-0 md:transition-[flex-grow] md:duration-500 md:ease-out " +
+                    "group relative flex w-full cursor-pointer items-center gap-4 py-1 md:min-h-0 md:flex-1 md:gap-0 md:overflow-hidden md:rounded-tl-[28px] md:rounded-tr-[96px] md:rounded-br-[28px] md:rounded-bl-[96px] md:bg-ink md:py-0 md:transition-[flex-grow] md:duration-500 md:ease-out " +
                     (activeCard === i
                       ? i === 1
                         ? "md:flex-[2]"
@@ -345,7 +347,7 @@ function Home() {
                       height={1104}
                       loading="lazy"
                       className={
-                        "size-full rounded-[1.25rem] object-cover md:h-full md:w-full md:rounded-none md:transition-all md:duration-500 md:ease-out md:w-[50vw] md:max-w-none md:shrink-0 md:scale-105 " +
+                        "size-full rounded-[1.25rem] object-cover md:h-full md:w-full md:rounded-none md:transition-all md:duration-500 md:ease-out md:w-[50vw] md:max-w-none md:shrink-0 md:scale-[1.0] " +
                         (activeCard === i
                           ? "md:scale-100 md:opacity-100 md:blur-0"
                           : "md:opacity-40 md:blur-[2px]")
@@ -401,7 +403,7 @@ function Home() {
           />
           <Link
             to="/custom-wedding-work"
-            className="group relative block h-[75dvh] w-full overflow-hidden bg-ink"
+            className="group relative block h-[75dvh] w-full cursor-pointer overflow-hidden bg-ink"
           >
             <img
               src={images.fabric}

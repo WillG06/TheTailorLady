@@ -19,15 +19,12 @@ function shouldShowPreloader() {
     return false;
   }
 
-  const shouldShow = !shownInSession || navigation?.type === "reload";
-  if (shouldShow) preloaderShownInDocument = true;
-  return shouldShow;
+  return !shownInSession || navigation?.type === "reload";
 }
 
 export function HomePreloader() {
-  const [count, setCount] = useState(0);
+  const [shouldShow] = useState(shouldShowPreloader);
   const [done, setDone] = useState(false);
-  const [ready, setReady] = useState(false);
   const reduce = useReducedMotion();
   const initialized = useRef(false);
 
@@ -35,82 +32,86 @@ export function HomePreloader() {
     if (initialized.current) return;
     initialized.current = true;
 
-    if (!shouldShowPreloader() || reduce) {
+    if (!shouldShow || reduce) {
       setDone(true);
-      setReady(true);
       return;
     }
 
+    preloaderShownInDocument = true;
     try {
       window.sessionStorage.setItem(PRELOADER_SESSION_KEY, "1");
     } catch {
       // The document-level guard still prevents repeated playback.
     }
 
-    setReady(true);
-  }, [reduce]);
+  }, [reduce, shouldShow]);
 
   useEffect(() => {
-    if (!ready || done || count >= 100) return;
-    const id = window.setTimeout(
-      () => setCount((value) => Math.min(100, value + 2)),
-      22,
-    );
-    return () => window.clearTimeout(id);
-  }, [count, done, ready]);
+    if (!shouldShow || done || reduce) return;
 
-  useEffect(() => {
-    if (!ready || done || count < 100) return;
-    const id = window.setTimeout(() => setDone(true), 650);
-    return () => window.clearTimeout(id);
-  }, [count, done, ready]);
+    const startedAt = performance.now();
+    const heroImage = document.querySelector<HTMLImageElement>("main img");
+    let loadListener: (() => void) | undefined;
+    let hideTimeout: number | undefined;
+    let cancelled = false;
 
-  if (!ready || (reduce && done)) return null;
+    const pageLoad = document.readyState === "complete"
+      ? Promise.resolve()
+      : new Promise<void>((resolve) => {
+          loadListener = resolve;
+          window.addEventListener("load", resolve, { once: true });
+        });
+    const heroReady = heroImage
+      ? heroImage.decode().then(() => undefined).catch(() => undefined)
+      : Promise.resolve();
+
+    void Promise.all([pageLoad, document.fonts.ready, heroReady]).then(() => {
+      const remainingTime = Math.max(0, 1600 - (performance.now() - startedAt));
+      hideTimeout = window.setTimeout(() => {
+        if (!cancelled) setDone(true);
+      }, remainingTime);
+    });
+
+    return () => {
+      cancelled = true;
+      if (loadListener) window.removeEventListener("load", loadListener);
+      if (hideTimeout !== undefined) window.clearTimeout(hideTimeout);
+    };
+  }, [done, reduce, shouldShow]);
+
+  if (!shouldShow || (reduce && done)) return null;
 
   return (
     <AnimatePresence>
       {!done && (
         <motion.div
-          className="fixed inset-0 z-[100] flex text-primary-foreground"
-          exit={{ pointerEvents: "none" }}
+          className="fixed inset-0 z-[100] grid place-items-center bg-background text-foreground"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
-          <motion.div
-            className="absolute inset-y-0 left-0 w-1/2 bg-ink"
-            exit={{ x: "-100%" }}
-            transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
-          />
-          <motion.div
-            className="absolute inset-y-0 right-0 w-1/2 bg-ink"
-            exit={{ x: "100%" }}
-            transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
-          />
-          <motion.div
-            className="relative z-10 m-auto text-center"
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.12 }}
-          >
-            {count < 100 ? (
-              <p
-                className="font-display text-6xl tabular-nums md:text-8xl"
-                aria-live="polite"
-              >
-                {count}
-                <span className="text-2xl">%</span>
-              </p>
-            ) : (
+          {/* Previous loader markup:
+          <div className="w-48 text-center">
+            <p className="font-display text-3xl">The Tailor Lady</p>
+            <div className="mt-6 h-px w-full bg-border" role="progressbar" aria-label="Loading page">
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-center gap-5 font-display text-3xl md:text-5xl"
-              >
-                <span>The Tailor Lady</span>
-                <span className="h-16 w-px bg-accent" aria-hidden="true" />
-                <span className="text-lg font-sans uppercase tracking-[.2em]">
-                  Tailors
-                </span>
-              </motion.div>
-            )}
-          </motion.div>
+                className="h-px origin-left bg-foreground"
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1.25, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </div>
+          </div>
+          */}
+          <div className="w-48 text-center md:w-64">
+            <p className="whitespace-nowrap font-sans text-sm font-semibold uppercase leading-none tracking-[.18em] md:text-base md:tracking-[.2em]">The Tailor Lady</p>
+            <div className="mx-auto mt-7 size-7" role="progressbar" aria-label="Loading page">
+              <motion.div
+                className="size-full rounded-full border border-border border-t-foreground"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 0.8, ease: "linear", repeat: Infinity }}
+              />
+            </div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

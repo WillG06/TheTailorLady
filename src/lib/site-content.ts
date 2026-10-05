@@ -14,10 +14,18 @@ import brideBlur from "@/assets/brideBlur.jpg";
 import footer from "@/assets/footer.jpg";
 import veil from "@/assets/veil.jpg";
 import bowBack from "@/assets/bowBack.jpg";
+import mirror from "@/assets/mirror.webp";
+import gall11 from "@/assets/gal11.webp";import gal12 from "@/assets/gal12.webp";
+import gal18 from "@/assets/gal18.jpg";
+import gal3 from "@/assets/gal3.webp";
+import gal2 from "@/assets/gal2.webp";
+import smile from "@/assets/brideSmile.webp";
+import contact from "@/assets/getInTouch.webp";
+import alterations from "@/assets/alterations.webp";
 
 
-
-export const images = { hero, heroMobile, suits, scissors, fabric, wedding, twoPiece, dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting, brideBlur, footer, veil, bowBack } 
+export const images = { hero, heroMobile, suits, scissors, fabric, wedding, twoPiece, 
+  dinner, overcoat, bridalFitting, laceDetail, bridesmaidFitting, brideBlur, footer, veil, bowBack, mirror, gall11, gal12, gal18, gal3, gal2, smile, contact, alterations } 
 
 export const navItems = [
   ["Home", "/"], ["Gallery", "/gallery"],

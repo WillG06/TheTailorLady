@@ -71,6 +71,8 @@
   body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-sans); }
   h1,h2,h3,h4,p { letter-spacing: 0; }
   a,button,input,select,textarea { outline-offset: 4px; }
+  a[href], button, [role="button"], [data-slot="button"], [data-slot="link"], .cursor-pointer { cursor: pointer; }
+  img { cursor: inherit; }
   :focus-visible { outline: 2px solid var(--ring); }
 }
 
@@ -84,15 +86,8 @@
 @utility stack-section { position: relative; margin-top: -10vh; border-radius: 0; }
 @utility image-hover { transition: transform .8s cubic-bezier(.22,1,.36,1); &:hover { transform: scale(1.025); } }
 
-.process-panel + .process-panel { margin-top: -10vh; }
-.process-panel:nth-child(2) { margin-inline: clamp(0rem, 3vw, 3rem) 0; }
-.process-panel:nth-child(3) { margin-inline: 0 clamp(0rem, 3vw, 3rem); }
-.process-panel:nth-child(4) { margin-inline: clamp(0rem, 5vw, 5rem) 0; }
-
-@media (max-width: 767px) {
-  .process-panel + .process-panel { margin-top: -2rem; }
-  .process-panel:nth-child(n) { margin-inline: 0; }
-}
+.process-track { scrollbar-width: none; }
+.process-track::-webkit-scrollbar { display: none; }
 
 ::selection { background: var(--blush); color: var(--foreground); }
 

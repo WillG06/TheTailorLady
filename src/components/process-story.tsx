@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useRef, useState } from "react";
 import { BookingCta, Eyebrow } from "@/components/site-elements";
 import { images } from "@/lib/site-content";
 
@@ -11,7 +12,7 @@ const content = {
     intro: "Every garment arrives with its own construction, history and purpose. We take time to understand all three before a single stitch is opened.",
     steps: [
       { number: "01", title: "Drop-off & assessment", image: images.bridalFitting, alt: "Wedding dress hem being assessed and pinned during a bridal fitting in Birmingham", text: "We begin with the garment on you, not on a hanger. The full silhouette is assessed — balance, proportion, movement and the way the original maker intended it to sit. We then agree what should change, what should remain untouched, and the finish you are hoping to achieve.", detail: "You leave with a clear scope, estimated timing and price." },
-      { number: "02", title: "Pinning & preparation", image: images.laceDetail, alt: "Bridal lace and beadwork being altered carefully by hand", text: "Adjustments are marked directly on the body so every line relates to your posture. For gowns and constructed jackets, internal layers are considered separately before seams are opened. This is where experience matters: a small external change can require careful internal rebuilding.", detail: "Original seam allowances and construction are preserved wherever possible." },
+      { number: "02", title: "Pinning & preparation", image: images.bowBack, alt: "Bridal lace and beadwork being altered carefully by hand", text: "Adjustments are marked directly on the body so every line relates to your posture. For gowns and constructed jackets, internal layers are considered separately before seams are opened. This is where experience matters: a small external change can require careful internal rebuilding.", detail: "Original seam allowances and construction are preserved wherever possible." },
       { number: "03", title: "The fitting", image: images.hero, alt: "Tailor checking the balance and fit of a jacket during a fitting", text: "At the fitting we check the garment in motion as well as at rest. Hem lines, sleeve pitch, waist shape and ease are refined together. Complex commissions may need a second fitting, particularly when several areas of a garment affect one another.", detail: "Nothing is finished permanently until the balance feels right." },
       { number: "04", title: "Finish & collection", image: images.bridesmaidFitting, alt: "Finished sage bridesmaid dresses receiving final adjustments in the atelier", text: "The garment is completed with the quiet details that make an alteration disappear: clean internal work, matched thread, restored pressing and a final quality check. At collection, we ask you to try it once more so that fit, comfort and confidence are all confirmed.", detail: "Pressed, checked and ready for the occasion it was made to meet." },
     ],
@@ -31,25 +32,85 @@ const content = {
 
 export function ProcessStory({ kind }: { kind: ProcessKind }) {
   const section = content[kind];
-  return <section className="bg-secondary px-5 pb-24 pt-28 md:px-10 md:pb-36 md:pt-36">
-    <div className="mx-auto max-w-7xl">
-      <div className="mx-auto max-w-3xl text-center"><Eyebrow>{section.eyebrow}</Eyebrow><h2 className="mt-5 font-display text-5xl leading-[.96] md:text-7xl">{section.title}</h2><p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">{section.intro}</p></div>
-      <div className="mt-20 md:mt-28">
-        {section.steps.map((step, index) => {
-          const dark = index % 2 === 1;
-          const reversed = index % 2 === 1;
-          return <motion.article key={step.number} className={`process-panel relative border border-border ${dark ? "bg-ink text-primary-foreground" : "bg-background text-foreground"}`} initial={{ opacity: 0, y: 80 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .12 }} transition={{ duration: .9, ease: [.22,1,.36,1] }}>
-            <div className="grid lg:min-h-[72dvh] lg:grid-cols-12">
-              <div className={`relative aspect-[4/5] overflow-hidden sm:aspect-[4/3] lg:col-span-7 lg:aspect-auto lg:min-h-full ${reversed ? "lg:order-2" : ""}`}><motion.img src={step.image} alt={step.alt} width={1400} height={1000} loading="lazy" className="absolute inset-0 size-full object-cover" initial={{ scale: 1.08 }} whileInView={{ scale: 1 }} viewport={{ once: true, amount: .2 }} transition={{ duration: 1.25, ease: [.22,1,.36,1] }}/><div className="absolute inset-0 bg-process-image"/></div>
-              <div className={`process-copy relative z-10 mx-3 -mt-12 flex min-w-0 flex-col justify-between p-6 sm:mx-6 sm:p-9 lg:col-span-5 lg:mx-0 lg:mt-0 lg:p-16 ${dark ? "bg-ink" : "bg-background"} ${reversed ? "lg:order-1" : ""}`}>
-                <span className={`font-display text-6xl leading-none sm:text-7xl lg:text-8xl ${dark ? "text-primary-foreground/10" : "text-foreground/10"}`}>{step.number}</span>
-                <div className="mt-10 lg:mt-auto"><p className="text-[1rem] font-semibold uppercase tracking-[.2em] text-accent">Step {step.number}</p><h3 className="mt-4 font-display text-4xl leading-none md:text-5xl">{step.title}</h3><p className={`mt-6 text-base leading-7 sm:leading-8 ${dark ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{step.text}</p><p className={`mt-8 border-t pt-5 text-xs uppercase leading-6 tracking-[.14em] ${dark ? "border-primary-foreground/20 text-primary-foreground/55" : "border-border text-muted-foreground"}`}>{step.detail}</p></div>
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const goToStep = (stepIndex: number) => {
+    const track = trackRef.current;
+    const panel = track?.children.item(stepIndex);
+    if (track && panel instanceof HTMLElement) {
+      track.scrollTo({ left: panel.offsetLeft - track.offsetLeft, behavior: "smooth" });
+    }
+  };
+
+  const handleScroll = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    const panels = Array.from(track.children);
+    const nearestIndex = panels.reduce((nearest, panel, index) => {
+      const currentDistance = Math.abs(panel.getBoundingClientRect().left - track.getBoundingClientRect().left);
+      const nearestDistance = Math.abs(panels[nearest].getBoundingClientRect().left - track.getBoundingClientRect().left);
+      return currentDistance < nearestDistance ? index : nearest;
+    }, 0);
+    setActiveStep(nearestIndex);
+  };
+
+  return (
+    <section className="bg-secondary px-5 pb-24 pt-24 md:px-10 md:pb-32 md:pt-32">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-8 border-b border-border pb-8 md:grid-cols-[1fr_1.2fr] md:items-end md:gap-16 md:pb-10">
+          <div>
+            <Eyebrow>{section.eyebrow}</Eyebrow>
+            <h2 className="mt-4 max-w-xl font-display text-5xl leading-[.98] md:text-6xl">{section.title}</h2>
+          </div>
+          <p className="max-w-2xl text-base leading-7 text-muted-foreground md:justify-self-end md:text-lg md:leading-8">{section.intro}</p>
+        </div>
+
+        <div className="mt-8 flex items-center gap-5 md:mt-10">
+          <div
+            className="h-px flex-1 bg-border"
+            role="progressbar"
+            aria-label="Process steps"
+            aria-valuemin={1}
+            aria-valuemax={section.steps.length}
+            aria-valuenow={activeStep + 1}
+          >
+            <div className="h-px bg-foreground transition-[width] duration-300" style={{ width: `${((activeStep + 1) / section.steps.length) * 100}%` }} />
+          </div>
+          <span className="min-w-12 text-right text-xs tabular-nums text-muted-foreground">{section.steps[activeStep].number} / {section.steps.length.toString().padStart(2, "0")}</span>
+          <div className="flex gap-2">
+            <button type="button" onClick={() => goToStep(Math.max(0, activeStep - 1))} disabled={activeStep === 0} aria-label="Previous process step" className="grid size-10 place-items-center border border-border text-foreground transition-colors hover:bg-background disabled:cursor-not-allowed disabled:opacity-35">
+              <ArrowLeft className="size-4" aria-hidden="true" />
+            </button>
+            <button type="button" onClick={() => goToStep(Math.min(section.steps.length - 1, activeStep + 1))} disabled={activeStep === section.steps.length - 1} aria-label="Next process step" className="grid size-10 place-items-center border border-border text-foreground transition-colors hover:bg-background disabled:cursor-not-allowed disabled:opacity-35">
+              <ArrowRight className="size-4" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+
+        <div ref={trackRef} onScroll={handleScroll} className="process-track mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto md:gap-6" aria-label="Process steps">
+          {section.steps.map((step) => (
+            <article key={step.number} className="grid min-w-full snap-start overflow-hidden border border-border bg-background md:grid-cols-2">
+              <div className="relative aspect-[4/3] overflow-hidden md:aspect-auto md:min-h-[30rem]">
+                <img src={step.image} alt={step.alt} width={1400} height={1000} loading="lazy" className="absolute inset-0 size-full object-cover" />
               </div>
-            </div>
-          </motion.article>;
-        })}
+              <div className="flex min-h-[22rem] flex-col justify-between p-6 sm:p-9 md:min-h-[30rem] md:p-12 lg:p-16">
+                <p className="text-xs font-medium uppercase tracking-[.18em] text-muted-foreground">Step {step.number}</p>
+                <div className="mt-12 md:mt-0">
+                  <h3 className="font-display text-4xl leading-tight md:text-5xl">{step.title}</h3>
+                  <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground md:leading-8">{step.text}</p>
+                </div>
+                <p className="mt-8 border-t border-border pt-4 text-sm leading-6 text-foreground">{step.detail}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-14 flex flex-col items-start gap-5 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="max-w-lg font-display text-3xl">Ready to begin with a considered conversation?</p>
+          <BookingCta />
+        </div>
       </div>
-      <div className="mt-16 flex flex-col items-center text-center"><p className="mb-6 max-w-lg font-display text-3xl">Ready to begin with a considered conversation?</p><BookingCta/></div>
-    </div>
-  </section>;
+    </section>
+  );
 }
