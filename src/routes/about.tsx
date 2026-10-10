@@ -122,8 +122,8 @@ function About() {
             aria-hidden="true"
             className="absolute inset-x-0 top-1 z-10 h-0.5 bg-[#c21869]"
           />
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-4">
+          <div className="mx-auto grid max-w-screen-2xl gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="lg:col-span-3">
               <Eyebrow>Our story</Eyebrow>
               <div className="mt-8 size-48 overflow-hidden rounded-full border border-border bg-secondary md:size-56">
                 <img
@@ -136,18 +136,24 @@ function About() {
                 />
               </div>
             </div>
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-9">
               <h2 className="font-display text-4xl leading-[1] md:text-6xl">
                 Clothes should hold your shape and story.
               </h2>
-              <div className="mt-7 grid gap-6 text-base leading-7 text-muted-foreground md:mt-10 md:grid-cols-2 md:gap-10 md:text-lg md:leading-8">
+              <div className="mt-7 grid gap-6 text-base leading-7 text-muted-foreground md:mt-10 md:grid-cols-[1.1fr_0.9fr] md:gap-10 md:text-lg md:leading-8">
                 <p>
-                  This is a template view of the founder’s story.
+                  A view of the Founders story: Mahi. Mahi is a bespoke tailor with a passion for creating garments that are not only beautiful but also deeply personal. With years of experience in the industry, Mahi has honed her craft to ensure that every piece she creates is a true reflection of the individual wearing it.
                 </p>
-                <br />
-                <h2>
-                  "Add a quote for quality assurance"
-                </h2>
+                <blockquote>
+                  <p className="font-display text-2xl leading-snug text-foreground md:text-3xl">
+                    “I want everyone who visits to feel listened to. Together,
+                    we’ll find the right fit and finish to make a garment feel
+                    truly theirs.”
+                  </p>
+                  <cite className="mt-4 block text-sm not-italic text-muted-foreground">
+                    Mahi, owner
+                  </cite>
+                </blockquote>
               </div>
             </div>
           </div>

@@ -428,7 +428,7 @@ function Home() {
 
         {/* Bridal gallery.
 
-            MOBILE (below lg): a single plain rectangular photo, inset by the
+            MOBILE AND TABLET (below xl): a single plain rectangular photo, inset by the
             same px-5 page padding as the hero, no rounded corners, border,
             caption or arrow. The "Bridal is our focus" eyebrow sits on the
             photo's top-right corner, with a soft dark gradient behind it so
@@ -436,15 +436,15 @@ function Home() {
             bridalGalleryImages[0] for a dedicated image if you'd rather not
             reuse the hero's mobile shot.
 
-            DESKTOP (lg+): unchanged — two full-size images followed by the
+            DESKTOP (xl+): two full-size images followed by the
             arrow, with the eyebrow back in the text column. Each mobile-only
-            piece is lg:hidden and each desktop-only piece is hidden lg:*, so
+            piece is xl:hidden and each desktop-only piece is hidden xl:*, so
             only one version is ever visible. */}
-        <section className="relative overflow-hidden bg-ink text-primary-foreground">
-          <div className="grid w-full lg:min-h-[85dvh] lg:grid-cols-12">
+        <section className="relative w-full min-w-0 overflow-hidden bg-ink text-primary-foreground">
+          <div className="grid w-full min-w-0 xl:min-h-[85dvh] xl:grid-cols-12">
             {/* Mobile — plain rectangle with eyebrow overlaid top-right */}
-            <div className="px-5 pt-10 lg:hidden">
-              <div className="relative aspect-[4/5] w-full overflow-hidden bg-ink sm:aspect-[5/4]">
+            <div className="min-w-0 px-5 pt-8 sm:pt-10 xl:hidden">
+              <div className="relative aspect-[4/3] w-full max-w-full overflow-hidden bg-ink sm:aspect-[5/4]">
                 <img
                   src={bridalGalleryImages[0]}
                   alt="Wedding dress tailoring detail for a bridal fitting"
@@ -465,7 +465,7 @@ function Home() {
             </div>
 
             {/* Desktop — two-image carousel */}
-            <div className="relative hidden min-h-[38rem] items-center gap-10 overflow-hidden lg:col-span-7 lg:flex lg:justify-center lg:py-14 lg:pl-0 lg:pr-14">
+            <div className="relative hidden min-h-[38rem] items-center gap-10 overflow-hidden xl:col-span-7 xl:flex xl:justify-center xl:py-14 xl:pl-0 xl:pr-14">
               {/* Left — active image */}
               <div className="relative z-10 aspect-[4/5] w-[33%] shrink-0 overflow-hidden rounded-tl-[20px] rounded-tr-[60px] rounded-br-[20px] rounded-bl-[60px] border border-white">
                 <img
@@ -510,27 +510,35 @@ function Home() {
               </button>
             </div>
 
-            <div className="flex flex-col justify-center px-7 pb-16 pt-10 lg:col-span-5 lg:px-14 lg:py-20">
+            <div className="flex min-w-0 flex-col justify-center px-5 pb-12 pt-8 sm:px-7 sm:pb-16 sm:pt-10 xl:col-span-5 xl:px-14 xl:py-20">
               {/* Desktop-only eyebrow — on mobile it lives on the photo */}
-              <div className="hidden lg:block">
+              <div className="hidden xl:block">
                 <Eyebrow light>Bridal is our focus</Eyebrow>
               </div>
-              <h2 className="font-display text-5xl leading-[.95] md:text-7xl lg:mt-5">
+              <h2 className="max-w-full font-display text-[1.65rem] leading-[1.05] sm:text-4xl xl:mt-5 xl:text-7xl xl:leading-[.95]">
                 Professionally considered from design to fitting.
               </h2>
-              <p className="mt-7 max-w-lg text-base leading-7 text-primary-foreground/85 md:text-[28px] md:leading-9">
+              <p className="mt-5 max-w-lg text-[0.95rem] leading-6 text-primary-foreground/85 sm:mt-7 xl:text-[28px] xl:leading-9">
                 From a clean hem to intricate lace, beadwork, bodice
                 reshaping and train bustles, every alteration is assessed
                 around the construction of your dress and how you want to
                 move through the day.
               </p>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <Button asChild variant="ivory" size="lg">
+              <div className="mt-6 flex min-w-0 flex-col items-start gap-2 sm:flex-row sm:flex-wrap sm:gap-3 sm:mt-9">
+                <Button
+                  asChild
+                  variant="ivory"
+                  size="sm"
+                  className="h-9 max-w-full px-3 text-[0.7rem] tracking-[.1em] sm:h-10 sm:px-5 sm:text-xs sm:tracking-[.14em] lg:px-7"
+                >
                   <Link to="/alterations" hash="prices">
                     View bridal prices <ArrowUpRight />
                   </Link>
                 </Button>
-                <BookingCta dark />
+                <BookingCta
+                  dark
+                  className="h-9 max-w-full px-3 text-[0.7rem] tracking-[.1em] sm:h-10 sm:px-5 sm:text-xs sm:tracking-[.14em] lg:px-7"
+                />
               </div>
             </div>
           </div>

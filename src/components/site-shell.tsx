@@ -29,7 +29,7 @@ export function SiteFooter() {
               width={1200}
               height={1500}
               loading="lazy"
-              className="absolute inset-0 size-full object-cover max-md:scale-[1.15]"
+              className="absolute inset-0 size-full object-cover max-md:scale-[1.15] md:max-xl:scale-[1.25]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
             <p className="absolute bottom-7 right-8 text-right text-sm text-primary-foreground/85 md:bottom-9 md:right-10">
