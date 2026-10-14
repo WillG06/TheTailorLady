@@ -107,3 +107,159 @@
 .animate-marquee {
   animation: marquee 14s linear infinite;
 }
+
+.agency-credit {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid hsl(211 14% 43% / 0.2);
+  border-left: 3px solid hsl(43 75% 53%);
+  background: hsl(0 0% 98%);
+  color: hsl(215 28% 22%);
+}
+
+.agency-credit__content {
+  display: grid;
+  gap: 0.45rem 1.5rem;
+}
+
+.agency-credit__identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+}
+
+.agency-credit__eyebrow {
+  color: hsl(211 14% 43%);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.agency-credit__wordmark {
+  display: inline-block;
+  margin-top: 0;
+  color: hsl(215 28% 22%);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 0.95;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.agency-credit__wordmark:hover {
+  color: hsl(211 14% 43%);
+}
+
+.agency-credit__links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+  gap: 0 0.75rem;
+}
+
+.agency-credit__link {
+  display: inline-flex;
+  min-width: 0;
+  min-height: 1.8rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0;
+  color: hsl(215 28% 22%);
+  font-size: 0.72rem;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.agency-credit__link--website {
+  grid-column: 1 / -1;
+}
+
+.agency-credit__link:hover {
+  color: hsl(211 14% 43%);
+}
+
+.agency-credit__link svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  color: hsl(43 75% 43%);
+}
+
+@media (max-width: 39.999rem) {
+  .agency-credit__content {
+    gap: 0.8rem;
+  }
+
+  .agency-credit__identity {
+    align-items: center;
+    column-gap: 0.65rem;
+  }
+
+  .agency-credit__eyebrow {
+    font-size: 0.58rem;
+  }
+
+  .agency-credit__wordmark {
+    font-size: 1.55rem;
+  }
+
+  .agency-credit__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .agency-credit__link {
+    min-height: 2.75rem;
+    overflow-wrap: anywhere;
+    border: 1px solid hsl(211 14% 43% / 0.16);
+    background: hsl(211 30% 88% / 0.28);
+    padding: 0.55rem 0.6rem;
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .agency-credit__link--website {
+    grid-column: 1 / -1;
+    justify-content: space-between;
+    border-color: hsl(43 75% 53% / 0.45);
+    background: hsl(43 80% 88% / 0.3);
+  }
+}
+
+@media (max-width: 23.999rem) {
+  .agency-credit__links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .agency-credit__link--website {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 64rem) {
+  .agency-credit__content {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .agency-credit__identity {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .agency-credit__wordmark {
+    font-size: 1.65rem;
+  }
+
+  .agency-credit__links {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .agency-credit__link--website {
+    grid-column: auto;
+    color: hsl(211 14% 43%);
+  }
+}

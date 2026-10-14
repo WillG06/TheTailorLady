@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Instagram, MapPin } from "lucide-react";
+import { ArrowUpRight, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/site-elements";
-import { businessDetails, legalLinks, navItems } from "@/lib/site-content";
+import { agencyDetails, businessDetails, legalLinks, navItems } from "@/lib/site-content";
 // Adjust this path to wherever footer.jpg lives in your project.
 import footerImage from "@/assets/footer.jpg";
 
@@ -136,6 +136,44 @@ export function SiteFooter() {
             </p>
           </div>
         </div>
+
+        <aside
+          aria-label={`Website designed by ${agencyDetails.name}`}
+          className="agency-credit mx-0 mb-8 px-4 py-4 sm:mx-5 sm:px-5 sm:py-3 md:mx-10 lg:mx-14"
+        >
+          <div className="agency-credit__content">
+            <div className="agency-credit__identity">
+              <p className="agency-credit__eyebrow">Website designed by</p>
+              <a
+                href={agencyDetails.websiteHref}
+                target="_blank"
+                rel="noreferrer"
+                className="agency-credit__wordmark"
+              >
+                {agencyDetails.name}
+              </a>
+            </div>
+            <nav aria-label={`${agencyDetails.name} contact details`} className="agency-credit__links">
+              <a href={agencyDetails.phoneHref} className="agency-credit__link">
+                <Phone aria-hidden="true" />
+                {agencyDetails.phoneDisplay}
+              </a>
+              <a href={agencyDetails.emailHref} className="agency-credit__link">
+                <Mail aria-hidden="true" />
+                {agencyDetails.email}
+              </a>
+              <a
+                href={agencyDetails.websiteHref}
+                target="_blank"
+                rel="noreferrer"
+                className="agency-credit__link agency-credit__link--website"
+              >
+                {agencyDetails.website}
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+            </nav>
+          </div>
+        </aside>
 
         <div className="flex flex-col gap-5 border-t border-white px-5 py-6 text-xs text-primary-foreground/50 md:flex-row md:items-center md:justify-between md:px-10 lg:px-14">
           <p>

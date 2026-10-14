@@ -63,6 +63,16 @@ export const businessDetails = {
   ],
 } as const;
 
+export const agencyDetails = {
+  name: "Gilevo&Co.",
+  phoneDisplay: "07463 850903",
+  phoneHref: "tel:+447463850903",
+  email: "gilevo.co@gmail.com",
+  emailHref: "mailto:gilevo.co@gmail.com",
+  website: "www.gilevo.co.uk",
+  websiteHref: "https://www.gilevo.co.uk",
+} as const;
+
 export const alterationPrices = [
   {
     id: "wedding-dress",
