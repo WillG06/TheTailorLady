@@ -46,15 +46,19 @@ export const faqs = [
   ["Can you alter wedding dresses?", "Wedding dress alterations are planned around the gown, construction and wedding date. Early enquiries are recommended, especially in peak season."],
   ["What happens at the first fitting?", "We discuss the occasion, style and budget, then take measurements and study posture and proportion before advising on cloth and construction."],
   ["Is a deposit required?", "Deposit terms will be confirmed with your quotation. This template does not currently take online payment."],
-  ["Where are appointments held?", "Appointments will be held at the Birmingham city centre atelier. The precise address will be added before launch."],
+  ["Where are appointments held?", "Appointments are held at 101 Newhall St, Birmingham B3 1LL."],
 ] as const;
 
 export const legalLinks = [["Privacy", "/privacy"], ["Terms", "/terms"], ["Cookies", "/cookies"]] as const;
 
 export const businessDetails = {
   location: "Birmingham city centre",
+  address: "101 Newhall St, Birmingham B3 1LL",
+  email: "thetailorlady.uk@gmail.com",
+  emailHref: "mailto:thetailorlady.uk@gmail.com",
   phoneDisplay: "07342 477032",
   phoneHref: "tel:+447342477032",
+  whatsappDisplay: "+44 7342 477032",
   whatsappHref: "https://wa.me/447342477032",
   hours: [
     ["Monday–Friday", "10:00am–6:30pm"],

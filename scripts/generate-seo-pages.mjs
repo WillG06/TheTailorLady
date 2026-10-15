@@ -1,7 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
-const siteUrl = "https://willg06.github.io/TheTailorLady";
+const siteUrl = "https://thetailorlady.co.uk";
 const routes = [
   {
     path: "/about",

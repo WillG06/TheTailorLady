@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://willg06.github.io/TheTailorLady/sitemap.xml
+Sitemap: https://thetailorlady.co.uk/sitemap.xml

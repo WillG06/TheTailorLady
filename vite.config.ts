@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  base: "/TheTailorLady/",
+  base: "/",
   plugins: [
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
     tanstackRouter({ target: "react" }),

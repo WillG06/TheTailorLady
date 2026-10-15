@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/site-elements";
+import { businessDetails } from "@/lib/site-content";
 
 type ContactFormState = {
   name: string;
@@ -32,8 +33,9 @@ const initialForm: ContactFormState = {
   consent: false,
 };
 
+const emailEnquiriesAvailable = false;
 const fieldClass =
-  "box-border h-12 w-full min-w-0 appearance-none border-0 border-b border-border bg-transparent px-0 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none";
+  "box-border h-12 w-full min-w-0 appearance-none border-0 border-b border-border bg-transparent px-0 py-3 text-[0.9rem] text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_MESSAGE = 1200;
@@ -63,9 +65,7 @@ export function ContactEnquiryForm({
     ...initialForm,
     service: defaultService,
   }));
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof ContactFormState, string>>
-  >({});
+  const [errors, setErrors] = useState<Partial<Record<keyof ContactFormState, string>>>({});
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [statusText, setStatusText] = useState("");
 
@@ -187,177 +187,234 @@ export function ContactEnquiryForm({
     <div className="flex h-full flex-col rounded-[28px] border border-border bg-card p-5 shadow-[0_15px_40px_rgba(15,14,13,0.04)] md:p-8">
       <div className="mb-8 border-b border-border pb-4">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h2 className="mt-3 font-display text-4xl md:text-5xl">{title}</h2>
+        <h2 className="mt-3 font-display text-3xl leading-tight sm:text-4xl md:text-5xl">
+          {title}
+        </h2>
       </div>
+
+      {!emailEnquiriesAvailable && (
+        <div role="status" className="mb-6 border border-accent/40 bg-background p-4">
+          <p className="font-medium text-foreground">
+            The online enquiry form is temporarily unavailable.
+          </p>
+          <p className="mt-1 text-[0.9rem] leading-6 text-muted-foreground">
+            Please email us directly or call and we will be happy to help.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-[0.9rem] font-medium">
+            <a
+              href={businessDetails.emailHref}
+              className="break-all underline underline-offset-4 hover:text-accent"
+            >
+              {businessDetails.email}
+            </a>
+            <a
+              href={businessDetails.phoneHref}
+              className="underline underline-offset-4 hover:text-accent"
+            >
+              Call {businessDetails.phoneDisplay}
+            </a>
+            <a
+              href={businessDetails.whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              className="underline underline-offset-4 hover:text-accent"
+            >
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      )}
 
       <form
         onSubmit={handleSubmit}
         noValidate
-        className="flex flex-1 flex-col gap-6"
+        className="flex flex-1 flex-col"
         aria-describedby="contact-form-status"
       >
-        <div className="grid gap-6 md:grid-cols-2">
-          <label className="block text-xs font-medium uppercase tracking-[.16em] text-muted-foreground">
-            Name
-            <input
-              name="name"
-              type="text"
-              maxLength={MAX_NAME}
-              value={form.name}
-              onChange={onChange}
-              className={fieldClass}
-              placeholder="Your name"
-              aria-invalid={Boolean(errors.name)}
-            />
-            {errors.name && <span className="mt-2 block text-xs text-destructive">{errors.name}</span>}
-          </label>
+        <fieldset
+          disabled={!emailEnquiriesAvailable}
+          className="flex w-full min-w-0 flex-1 flex-col gap-6 border-0 p-0"
+        >
+          <legend className="sr-only">
+            Email enquiry form temporarily unavailable. Please call or use WhatsApp instead.
+          </legend>
+          <div className="grid gap-6 md:grid-cols-2">
+            <label className="block text-[0.7rem] font-medium uppercase tracking-[.12em] text-muted-foreground">
+              Name
+              <input
+                name="name"
+                type="text"
+                maxLength={MAX_NAME}
+                value={form.name}
+                onChange={onChange}
+                className={fieldClass}
+                placeholder="Your name"
+                aria-invalid={Boolean(errors.name)}
+              />
+              {errors.name && (
+                <span className="mt-2 block text-xs text-destructive">{errors.name}</span>
+              )}
+            </label>
 
-          <label className="block text-xs font-medium uppercase tracking-[.16em] text-muted-foreground">
-            Email
-            <input
-              name="email"
-              type="email"
-              maxLength={MAX_EMAIL}
-              value={form.email}
-              onChange={onChange}
-              className={fieldClass}
-              placeholder="you@example.com"
-              aria-invalid={Boolean(errors.email)}
-            />
-            {errors.email && <span className="mt-2 block text-xs text-destructive">{errors.email}</span>}
-          </label>
-        </div>
+            <label className="block text-[0.7rem] font-medium uppercase tracking-[.12em] text-muted-foreground">
+              Email
+              <input
+                name="email"
+                type="email"
+                maxLength={MAX_EMAIL}
+                value={form.email}
+                onChange={onChange}
+                className={fieldClass}
+                placeholder="you@example.com"
+                aria-invalid={Boolean(errors.email)}
+              />
+              {errors.email && (
+                <span className="mt-2 block text-xs text-destructive">{errors.email}</span>
+              )}
+            </label>
+          </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          <label className="block text-xs font-medium uppercase tracking-[.16em] text-muted-foreground">
-            Service
-            <select
-              name="service"
-              value={form.service}
-              onChange={onChange}
-              className={fieldClass}
-              aria-invalid={Boolean(errors.service)}
-            >
-              <option value="">Select one</option>
-              <option value="Custom wedding work">Custom wedding work</option>
-              <option value="Wedding dress alterations">Wedding dress alterations</option>
-              <option value="Bridesmaid dress alterations">Bridesmaid dress alterations</option>
-              <option value="Bespoke tailoring">Bespoke tailoring</option>
-              <option value="Made to measure">Made to measure</option>
-              <option value="General alterations">General alterations</option>
-              <option value="Dry cleaning">Dry cleaning</option>
-            </select>
-            {errors.service && <span className="mt-2 block text-xs text-destructive">{errors.service}</span>}
-          </label>
-
-          <label className="block text-xs font-medium uppercase tracking-[.16em] text-muted-foreground">
-            Occasion
-            <select
-              name="occasion"
-              value={form.occasion}
-              onChange={onChange}
-              className={fieldClass}
-              aria-invalid={Boolean(errors.occasion)}
-            >
-              <option value="">Select one</option>
-              <option value="Wedding">Wedding</option>
-              <option value="Bridesmaid / bridal party">Bridesmaid / bridal party</option>
-              <option value="Evening wear">Evening wear</option>
-              <option value="Workwear">Workwear</option>
-              <option value="Other">Other</option>
-            </select>
-            {errors.occasion && <span className="mt-2 block text-xs text-destructive">{errors.occasion}</span>}
-          </label>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          <label className="block text-xs font-medium uppercase tracking-[.16em] text-muted-foreground">
-            Event date
-            <input
-              name="eventDate"
-              type="text"
-              maxLength={MAX_EVENT}
-              value={form.eventDate}
-              onChange={onChange}
-              className={fieldClass}
-              placeholder="Wedding date or ideal timing"
-              aria-invalid={Boolean(errors.eventDate)}
-            />
-            {errors.eventDate && <span className="mt-2 block text-xs text-destructive">{errors.eventDate}</span>}
-          </label>
-
-          <label className="block text-xs font-medium uppercase tracking-[.16em] text-muted-foreground">
-            Budget
-            <select name="budget" value={form.budget} onChange={onChange} className={fieldClass}>
-              <option value="">Select one</option>
-              <option value="Under £500">Under £500</option>
-              <option value="£500–£1,000">£500–£1,000</option>
-              <option value="£1,000–£2,500">£1,000–£2,500</option>
-              <option value="£2,500+">£2,500+</option>
-              <option value="Not sure yet">Not sure yet</option>
-            </select>
-          </label>
-        </div>
-
-        <label className="block text-xs font-medium uppercase tracking-[.16em] text-muted-foreground">
-          Tell us about the garment
-          <textarea
-            name="message"
-            rows={6}
-            maxLength={MAX_MESSAGE}
-            value={form.message}
-            onChange={onChange}
-            className={`${fieldClass} h-36 resize-none border border-border px-3 py-3`}
-            placeholder="Share the garment, fit concerns, any fabric details and the look you want to achieve."
-            aria-invalid={Boolean(errors.message)}
-          />
-          {errors.message && <span className="mt-2 block text-xs text-destructive">{errors.message}</span>}
-        </label>
-
-        <div className="mt-auto space-y-6">
-          <label className="flex items-start gap-3 text-sm leading-6 text-muted-foreground">
-            <input
-              type="checkbox"
-              name="consent"
-              checked={form.consent}
-              onChange={onChange}
-              className="mt-1 size-5 accent-[var(--accent)]"
-              aria-invalid={Boolean(errors.consent)}
-            />
-            <span>
-              I consent to The Tailor Lady using my details only to respond to this enquiry, and I understand this information is not used for any automated AI processing or marketing without my explicit permission. See the{" "}
-              <Link to="/privacy" className="underline underline-offset-4 hover:text-accent">
-                Privacy Policy
-              </Link>
-              .
-            </span>
-          </label>
-          {errors.consent && <p className="-mt-2 text-xs text-destructive">{errors.consent}</p>}
-
-          <div id="contact-form-status" aria-live="polite">
-            {status !== "idle" && (
-              <p
-                className={
-                  status === "success"
-                    ? "mt-2 text-sm text-foreground"
-                    : "mt-2 text-sm text-destructive"
-                }
+          <div className="grid gap-6 md:grid-cols-2">
+            <label className="block text-[0.7rem] font-medium uppercase tracking-[.12em] text-muted-foreground">
+              Service
+              <select
+                name="service"
+                value={form.service}
+                onChange={onChange}
+                className={fieldClass}
+                aria-invalid={Boolean(errors.service)}
               >
-                {statusText}
-              </p>
-            )}
+                <option value="">Select one</option>
+                <option value="Custom wedding work">Custom wedding work</option>
+                <option value="Wedding dress alterations">Wedding dress alterations</option>
+                <option value="Bridesmaid dress alterations">Bridesmaid dress alterations</option>
+                <option value="Bespoke tailoring">Bespoke tailoring</option>
+                <option value="Made to measure">Made to measure</option>
+                <option value="General alterations">General alterations</option>
+                <option value="Dry cleaning">Dry cleaning</option>
+              </select>
+              {errors.service && (
+                <span className="mt-2 block text-xs text-destructive">{errors.service}</span>
+              )}
+            </label>
+
+            <label className="block text-[0.7rem] font-medium uppercase tracking-[.12em] text-muted-foreground">
+              Occasion
+              <select
+                name="occasion"
+                value={form.occasion}
+                onChange={onChange}
+                className={fieldClass}
+                aria-invalid={Boolean(errors.occasion)}
+              >
+                <option value="">Select one</option>
+                <option value="Wedding">Wedding</option>
+                <option value="Bridesmaid / bridal party">Bridesmaid / bridal party</option>
+                <option value="Evening wear">Evening wear</option>
+                <option value="Workwear">Workwear</option>
+                <option value="Other">Other</option>
+              </select>
+              {errors.occasion && (
+                <span className="mt-2 block text-xs text-destructive">{errors.occasion}</span>
+              )}
+            </label>
           </div>
 
-          <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs uppercase tracking-[.16em] text-muted-foreground">
-              Birmingham city centre
-            </p>
-            <Button type="submit" variant="editorial" size="lg" className="self-start">
-              Send enquiry
-              <ArrowUpRight aria-hidden="true" />
-            </Button>
+          <div className="grid gap-6 md:grid-cols-2">
+            <label className="block text-[0.7rem] font-medium uppercase tracking-[.12em] text-muted-foreground">
+              Event date
+              <input
+                name="eventDate"
+                type="text"
+                maxLength={MAX_EVENT}
+                value={form.eventDate}
+                onChange={onChange}
+                className={fieldClass}
+                placeholder="Wedding date or ideal timing"
+                aria-invalid={Boolean(errors.eventDate)}
+              />
+              {errors.eventDate && (
+                <span className="mt-2 block text-xs text-destructive">{errors.eventDate}</span>
+              )}
+            </label>
+
+            <label className="block text-[0.7rem] font-medium uppercase tracking-[.12em] text-muted-foreground">
+              Budget
+              <select name="budget" value={form.budget} onChange={onChange} className={fieldClass}>
+                <option value="">Select one</option>
+                <option value="Under £500">Under £500</option>
+                <option value="£500–£1,000">£500–£1,000</option>
+                <option value="£1,000–£2,500">£1,000–£2,500</option>
+                <option value="£2,500+">£2,500+</option>
+                <option value="Not sure yet">Not sure yet</option>
+              </select>
+            </label>
           </div>
-        </div>
+
+          <label className="block text-[0.7rem] font-medium uppercase tracking-[.12em] text-muted-foreground">
+            Tell us about the garment
+            <textarea
+              name="message"
+              rows={6}
+              maxLength={MAX_MESSAGE}
+              value={form.message}
+              onChange={onChange}
+              className={`${fieldClass} h-36 resize-none border border-border px-3 py-3`}
+              placeholder="Share the garment, fit concerns, any fabric details and the look you want to achieve."
+              aria-invalid={Boolean(errors.message)}
+            />
+            {errors.message && (
+              <span className="mt-2 block text-xs text-destructive">{errors.message}</span>
+            )}
+          </label>
+
+          <div className="mt-auto space-y-6">
+            <label className="flex items-start gap-3 text-[0.88rem] leading-6 text-muted-foreground">
+              <input
+                type="checkbox"
+                name="consent"
+                checked={form.consent}
+                onChange={onChange}
+                className="mt-1 size-5 accent-[var(--accent)]"
+                aria-invalid={Boolean(errors.consent)}
+              />
+              <span>
+                I consent to The Tailor Lady using my details only to respond to this enquiry, and I
+                understand this information is not used for any automated AI processing or marketing
+                without my explicit permission. See the{" "}
+                <Link to="/privacy" className="underline underline-offset-4 hover:text-accent">
+                  Privacy Policy
+                </Link>
+                .
+              </span>
+            </label>
+            {errors.consent && <p className="-mt-2 text-xs text-destructive">{errors.consent}</p>}
+
+            <div id="contact-form-status" aria-live="polite">
+              {status !== "idle" && (
+                <p
+                  className={
+                    status === "success"
+                      ? "mt-2 text-[0.9rem] text-foreground"
+                      : "mt-2 text-[0.9rem] text-destructive"
+                  }
+                >
+                  {statusText}
+                </p>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-[0.7rem] uppercase tracking-[.12em] text-muted-foreground">
+                Birmingham city centre
+              </p>
+              <Button type="submit" variant="editorial" size="lg" className="self-start">
+                Send enquiry
+                <ArrowUpRight aria-hidden="true" />
+              </Button>
+            </div>
+          </div>
+        </fieldset>
       </form>
     </div>
   );

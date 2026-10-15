@@ -60,9 +60,7 @@ export function SiteFooter() {
               <div className="mt-14 flex items-start gap-3 border-t border-white pt-7 text-primary-foreground/70">
                 <MapPin className="mt-1 size-4 shrink-0 text-accent" aria-hidden="true" />
                 <p className="text-sm leading-6">
-                  {businessDetails.location}
-                  <br />
-                  Full atelier address to be confirmed
+                  {businessDetails.address}
                 </p>
               </div>
             </div>
@@ -130,10 +128,10 @@ export function SiteFooter() {
               >
                 WhatsApp
               </a>
+              <a href={businessDetails.emailHref} className={linkClass}>
+                {businessDetails.email}
+              </a>
             </div>
-            <p className="mt-5 text-xs text-primary-foreground/50">
-              Full address and email to be confirmed.
-            </p>
           </div>
         </div>
 
@@ -177,7 +175,7 @@ export function SiteFooter() {
 
         <div className="flex flex-col gap-5 border-t border-white px-5 py-6 text-xs text-primary-foreground/50 md:flex-row md:items-center md:justify-between md:px-10 lg:px-14">
           <p>
-            © {new Date().getFullYear()} The Tailor Lady. {businessDetails.location}.
+            © {new Date().getFullYear()} The Tailor Lady. {businessDetails.location}. All rights reserved.
           </p>
           <ul className="flex flex-wrap gap-5">
             {legalLinks.map(([label, to]) => (
@@ -191,6 +189,32 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
+  );
+}
+
+export function FloatingWhatsApp() {
+  return (
+    <a
+      href={businessDetails.whatsappHref}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Chat with The Tailor Lady on WhatsApp at ${businessDetails.whatsappDisplay}`}
+      className="group fixed bottom-5 left-5 z-50 flex h-14 w-14 items-center overflow-hidden rounded-full bg-[#25D366] text-white shadow-lg transition-[width,transform] duration-300 hover:w-[13.5rem] hover:scale-[1.03] focus-visible:w-[13.5rem] motion-reduce:transition-none sm:bottom-7 sm:left-7"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        className="ml-3.5 size-7 shrink-0"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.768.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.83 9.83 0 0 1-1.511-5.26c.001-5.45 4.437-9.884 9.889-9.884 2.64.001 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.946L.057 24l6.304-1.654a11.882 11.882 0 0 0 5.684 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"
+        />
+      </svg>
+      <span className="ml-3 max-w-0 overflow-hidden whitespace-nowrap text-sm font-semibold opacity-0 transition-[max-width,opacity] duration-300 group-hover:max-w-[10rem] group-hover:opacity-100 group-focus-visible:max-w-[10rem] group-focus-visible:opacity-100 motion-reduce:transition-none">
+        {businessDetails.whatsappDisplay}
+      </span>
+    </a>
   );
 }
 

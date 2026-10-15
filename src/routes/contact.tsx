@@ -1,12 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
-} from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { ContactEnquiryForm } from "@/components/contact-enquiry-form";
 import { Eyebrow } from "@/components/site-elements";
+import { canonicalUrl } from "@/lib/seo";
 import { businessDetails } from "@/lib/site-content";
 import contactImage from "@/assets/getInTouch.webp";
 
@@ -31,7 +27,7 @@ export const Route = createFileRoute("/contact")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "https://willg06.github.io/TheTailorLady/contact" }],
+    links: [{ rel: "canonical", href: canonicalUrl("/contact") }],
   }),
   component: Contact,
 });
@@ -54,20 +50,19 @@ function Contact() {
 
             <div className="rounded-[28px] border border-border bg-card p-6 md:p-7">
               <Eyebrow>Appointments</Eyebrow>
-              <h1 className="mt-4 font-display text-5xl leading-[0.94] md:text-6xl">
+              <h1 className="mt-4 font-display text-4xl leading-[0.94] sm:text-5xl md:text-6xl">
                 Begin your fitting.
               </h1>
               <p className="mt-4 max-w-md leading-7 text-muted-foreground">
-                Share the garment, the occasion and the finish you want. We will review the brief and recommend the appropriate service or fitting plan.
+                Share the garment, the occasion and the finish you want. We will review the brief
+                and recommend the appropriate service or fitting plan.
               </p>
 
               <div className="mt-8 space-y-5 text-sm text-muted-foreground">
                 <div className="flex items-start gap-3">
                   <MapPin className="mt-0.5 size-4 text-accent" aria-hidden="true" />
                   <span>
-                    {businessDetails.location}
-                    <br />
-                    Full atelier address to be confirmed
+                    {businessDetails.address}
                   </span>
                 </div>
 
@@ -91,7 +86,12 @@ function Contact() {
 
                 <div className="flex items-center gap-3 text-foreground">
                   <Mail className="size-4 text-accent" aria-hidden="true" />
-                  Email address to be confirmed
+                  <a
+                    href={businessDetails.emailHref}
+                    className="break-all transition-colors hover:text-accent"
+                  >
+                    {businessDetails.email}
+                  </a>
                 </div>
               </div>
             </div>

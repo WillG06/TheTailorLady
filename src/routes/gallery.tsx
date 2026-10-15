@@ -93,7 +93,7 @@ export const Route = createFileRoute("/gallery")({
 		links: [
 			{
 				rel: "canonical",
-				href: "https://willg06.github.io/TheTailorLady/gallery",
+				href: "https://thetailorlady.co.uk/gallery",
 			},
 		],
 	}),
